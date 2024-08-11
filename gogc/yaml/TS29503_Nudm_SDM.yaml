@@ -1,15 +1,15 @@
 openapi: 3.0.0
 
 info:
-  version: '2.3.0-alpha.3'
+  version: '2.3.0'
   title: 'Nudm_SDM'
   description: |
     Nudm Subscriber Data Management Service.  
-    © 2023, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
+    © 2024, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
     All rights reserved.
 
 externalDocs:
-  description: 3GPP TS 29.503 Unified Data Management Services, version 18.2.0
+  description: 3GPP TS 29.503 Unified Data Management Services, version 18.6.0
   url: 'https://www.3gpp.org/ftp/Specs/archive/29_series/29.503/'
 
 servers:
@@ -63,13 +63,13 @@ paths:
         - name: adjacent-plmns
           in: query
           description: List of PLMNs adjacent to the UE's serving PLMN
-          schema:
-            type: array
-            items:
-              $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
-            minItems: 1
-          style: form
-          explode: false
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
+                minItems: 1
         - name: single-nssai
           in: query
           content:
@@ -99,12 +99,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -116,15 +116,16 @@ paths:
                 $ref: '#/components/schemas/SubscriptionDataSets'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -188,12 +189,12 @@ paths:
             default: false
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -205,15 +206,16 @@ paths:
                 $ref: '#/components/schemas/Nssai'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -323,13 +325,13 @@ paths:
         - name: adjacent-plmns
           in: query
           description: List of PLMNs adjacent to the UE's serving PLMN
-          schema:
-            type: array
-            items:
-              $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
-            minItems: 1
-          style: form
-          explode: false
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
+                minItems: 1
         - name: disaster-roaming-ind
           in: query
           description: Indication whether Disaster Roaming service is applied or not
@@ -350,12 +352,12 @@ paths:
           explode: false
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -367,15 +369,16 @@ paths:
                 $ref: '#/components/schemas/AccessAndMobilitySubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -425,12 +428,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -442,15 +445,16 @@ paths:
                 $ref: '#/components/schemas/EnhancedCoverageRestrictionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -514,12 +518,12 @@ paths:
             default: false
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -531,15 +535,16 @@ paths:
                 $ref: '#/components/schemas/SmfSelectionSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -700,12 +705,12 @@ paths:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -717,15 +722,16 @@ paths:
                 $ref: '#/components/schemas/TraceDataResponse'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -798,12 +804,12 @@ paths:
             default: false
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -815,15 +821,16 @@ paths:
                 $ref: '#/components/schemas/SmSubsData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -879,12 +886,12 @@ paths:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -896,15 +903,16 @@ paths:
                 $ref: '#/components/schemas/SmsSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -960,12 +968,12 @@ paths:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -977,15 +985,16 @@ paths:
                 $ref: '#/components/schemas/SmsManagementSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1035,12 +1044,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1052,15 +1061,16 @@ paths:
                 $ref: '#/components/schemas/LcsPrivacyData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1111,12 +1121,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1128,15 +1138,16 @@ paths:
                 $ref: '#/components/schemas/LcsMoData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1192,12 +1203,12 @@ paths:
                 $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1209,15 +1220,16 @@ paths:
                 $ref: '#/components/schemas/LcsBroadcastAssistanceTypesData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1268,12 +1280,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1285,15 +1297,16 @@ paths:
                 $ref: '#/components/schemas/LcsSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1344,12 +1357,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1361,15 +1374,16 @@ paths:
                 $ref: '#/components/schemas/V2xSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1420,12 +1434,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1437,15 +1451,16 @@ paths:
                 $ref: '#/components/schemas/ProseSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1496,12 +1511,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1513,15 +1528,16 @@ paths:
                 $ref: '#/components/schemas/MbsSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1577,12 +1593,12 @@ paths:
              $ref: '#/components/schemas/UcPurpose'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1594,15 +1610,16 @@ paths:
                 $ref: '#/components/schemas/UcSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -1672,7 +1689,9 @@ paths:
                 $ref: '#/components/schemas/SdmSubscription'
           headers:
             Location:
-              description: 'Contains the URI of the newly created resource, according to the structure: {apiRoot}/nudm-sdm/<apiVersion>/{ueId}/sdm-subscriptions/{subscriptionId}'
+              description: >
+                'Contains the URI of the newly created resource, according to the structure:
+                {apiRoot}/nudm-sdm/<apiVersion>/{ueId}/sdm-subscriptions/{subscriptionId}'
               required: true
               schema:
                 type: string
@@ -1704,7 +1723,7 @@ paths:
           description: Unexpected error
       callbacks:
         datachangeNotification:
-          '{request.body#/callbackReference}':
+          '{$request.body#/callbackReference}':
             post:
               requestBody:
                 required: true
@@ -1744,7 +1763,7 @@ paths:
                 default:
                   description: Unexpected error
         dataRestorationNotification:
-          '{request.body#/dataRestorationCallbackUri}':
+          '{$request.body#/dataRestorationCallbackUri}':
             post:
               requestBody:
                 required: true
@@ -1942,12 +1961,12 @@ paths:
             $ref: '#/components/schemas/GpsiType'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -1959,15 +1978,16 @@ paths:
                 $ref: '#/components/schemas/IdTranslationResult'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -2273,12 +2293,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -2292,15 +2312,16 @@ paths:
                   $ref: '#/components/schemas/SharedData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -2351,7 +2372,9 @@ paths:
                 $ref: '#/components/schemas/SdmSubscription'
           headers:
             Location:
-              description: 'Contains the URI of the newly created resource, according to the structure: {apiRoot}/nudm-sdm/<apiVersion>/shared-data-subscriptions/{subscriptionId}'
+              description: >
+                'Contains the URI of the newly created resource, according to the structure:
+                {apiRoot}/nudm-sdm/<apiVersion>/shared-data-subscriptions/{subscriptionId}'
               required: true
               schema:
                 type: string
@@ -2381,7 +2404,7 @@ paths:
           description: Unexpected error
       callbacks:
         datachangeNotification:
-          '{request.body#/callbackReference}':
+          '{$request.body#/callbackReference}':
             post:
               requestBody:
                 required: true
@@ -2570,12 +2593,12 @@ paths:
             type: string
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -2587,15 +2610,16 @@ paths:
                 $ref: '#/components/schemas/GroupIdentifiers'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -2646,12 +2670,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -2663,15 +2687,16 @@ paths:
                 $ref: '#/components/schemas/SharedData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -2734,15 +2759,16 @@ paths:
                 $ref: '#/components/schemas/UeIdentifiers'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -2781,12 +2807,12 @@ paths:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/Supi'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -2798,15 +2824,16 @@ paths:
                 $ref: '#/components/schemas/TimeSyncSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -2857,12 +2884,12 @@ paths:
              $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
         - name: If-None-Match
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.2
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
           schema:
             type: string
         - name: If-Modified-Since
           in: header
-          description: Validator for conditional requests, as described in RFC 7232, 3.3
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
           schema:
             type: string
       responses:
@@ -2874,15 +2901,169 @@ paths:
                 $ref: '#/components/schemas/RangingSlPosSubscriptionData'
           headers:
             Cache-Control:
-              description: Cache-Control containing max-age, as described in RFC 7234, 5.2
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
               schema:
                 type: string
             ETag:
-              description: Entity Tag, containing a strong validator, as described in RFC 7232, 2.3
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
               schema:
                 type: string
             Last-Modified:
-              description: Timestamp for last modification of the resource, as described in RFC 7232, 2.2
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
+              schema:
+                type: string
+        '400':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/400'
+        '401':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/401'
+        '403':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/403'
+        '404':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/404'
+        '406':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/406'
+        '429':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/429'
+        '500':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/500'
+        '502':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/502'
+        '503':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/503'
+        default:
+          description: Unexpected error
+
+  /{supi}/a2x-data:
+    get:
+      summary: retrieve a UE's A2X Subscription Data
+      operationId: GetA2xData
+      tags:
+        - A2X Subscription Data Retrieval
+      security:
+        - {}
+        - oAuth2ClientCredentials:
+          - nudm-sdm
+        - oAuth2ClientCredentials:
+          - nudm-sdm
+          - nudm-sdm:a2x-data:read
+      parameters:
+        - name: supi
+          in: path
+          description: Identifier of the UE
+          required: true
+          schema:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Supi'
+        - name: supported-features
+          in: query
+          description: Supported Features
+          schema:
+             $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
+        - name: If-None-Match
+          in: header
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
+          schema:
+            type: string
+        - name: If-Modified-Since
+          in: header
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/A2xSubscriptionData'
+          headers:
+            Cache-Control:
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
+              schema:
+                type: string
+            ETag:
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
+              schema:
+                type: string
+            Last-Modified:
+              description: >
+                Timestamp for last modification of the resource, as described in RFC 9110, 2.2
+              schema:
+                type: string
+        '400':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/400'
+        '401':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/401'
+        '403':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/403'
+        '404':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/404'
+        '406':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/406'
+        '429':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/429'
+        '500':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/500'
+        '502':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/502'
+        '503':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/503'
+        default:
+          description: Unexpected error
+
+  /{ueId}/rangingsl-privacy-data:
+    get:
+      summary: retrieve a UE's Ranging and Sidelink Positioning Privacy Subscription Data
+      operationId: GetRangingSlPrivacyData
+      tags:
+        - Ranging and Sidelink Positioning Privacy Data Retrieval
+      security:
+        - {}
+        - oAuth2ClientCredentials:
+          - nudm-sdm
+        - oAuth2ClientCredentials:
+          - nudm-sdm
+          - nudm-sdm:rangingsl-privacy-data:read
+      parameters:
+        - name: ueId
+          in: path
+          description: Identifier of the UE
+          required: true
+          schema:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/VarUeId'
+        - name: supported-features
+          in: query
+          description: Supported Features
+          schema:
+             $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
+        - name: If-None-Match
+          in: header
+          description: Validator for conditional requests, as described in RFC 9110, 3.2
+          schema:
+            type: string
+        - name: If-Modified-Since
+          in: header
+          description: Validator for conditional requests, as described in RFC 9110, 3.3
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangingSlPrivacyData'
+          headers:
+            Cache-Control:
+              description: Cache-Control containing max-age, as described in RFC 9111, 5.2
+              schema:
+                type: string
+            ETag:
+              description: Entity Tag, containing a strong validator, as described in RFC 9110, 2.3
+              schema:
+                type: string
+            Last-Modified:
+              description: Timestamp for last modification of the resource, as described in RFC 9110, 2.2
               schema:
                 type: string
         '400':
@@ -2949,12 +3130,16 @@ components:
             nudm-sdm:group-identifiers:read: Access to read Group Identifiers
             nudm-sdm:multiple-identifiers:read: Access to read multiple Identifiers
             nudm-sdm:ranging-slpos-data:read: Access to read Ranging and Sidelink Positioning data
+            nudm-sdm:a2x-data:read: Access to read A2X data
+            nudm-sdm:rangingsl-privacy-data:read: Access to read Ranging and Sidelink Positioning privacy data
+
 
   schemas:
 
-# COMPLEX TYPES:
+# STRUCTURED TYPES:
 
     DatasetNames:
+      description: Contains names of data sets
       type: array
       items:
         $ref: '#/components/schemas/DataSetName'
@@ -2962,6 +3147,7 @@ components:
       uniqueItems: true
 
     SubscriptionDataSets:
+      description: Contains Subscription data sets
       type: object
       properties:
         amData:
@@ -2998,8 +3184,14 @@ components:
           $ref: '#/components/schemas/MbsSubscriptionData'
         ucData:
           $ref: '#/components/schemas/UcSubscriptionData'
+        a2xData:
+          $ref: '#/components/schemas/A2xSubscriptionData'
+        rangingSlPrivacyData:
+          $ref: '#/components/schemas/RangingSlPrivacyData'
+
 
     UeContextInSmsfData:
+      description: Contains SMSF information
       type: object
       properties:
         smsfInfo3GppAccess:
@@ -3008,6 +3200,7 @@ components:
           $ref: '#/components/schemas/SmsfInfo'
 
     SmsfInfo:
+      description: Contains SMSF related information
       type: object
       required:
         - smsfInstanceId
@@ -3020,8 +3213,8 @@ components:
         smsfSetId:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/NfSetId'
 
-
     AccessAndMobilitySubscriptionData:
+      description: Access and Mobility Subscription Data
       type: object
       properties:
         supportedFeatures:
@@ -3115,10 +3308,18 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DurationSec'
         mdtUserConsent:
           $ref: '#/components/schemas/MdtUserConsent'
+        adjacentPlmnMdtUserConsents:
+          description: A map (list of key-value pairs where PlmnId serves as key) of MdtUserConsent
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MdtUserConsent'
+          minProperties: 1
         mdtConfiguration:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/MdtConfiguration'
         traceData:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/TraceData'
+        sharedTraceDataId:
+          $ref: '#/components/schemas/SharedDataId'
         cagData:
           $ref: '#/components/schemas/CagData'
         stnSr:
@@ -3132,6 +3333,9 @@ components:
           default: false
         rgWirelineCharacteristics:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/RgWirelineCharacteristics'
+        aun3DeviceConnectivityAllowed:
+          type: boolean
+          default: false
         ecRestrictionDataWb:
           $ref: '#/components/schemas/EcRestrictionDataWb'
         ecRestrictionDataNb:
@@ -3201,8 +3405,53 @@ components:
           items:
             $ref: '#/components/schemas/SharedData'
           minItems: 1
+        qmcConfigInfo:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/QmcConfigInfo'
+        mbsrOperationAllowed:
+          $ref: '#/components/schemas/MbsrOperationAllowed'
+        ncrOperationAllowed:
+          type: boolean
+          default: false
+        ladnServiceAreas:
+          description: >
+            A map(list of key-value pairs where singleNssai serves as key) of DnnLadnServiceAreas
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DnnLadnServiceAreas'
+        ueLevelMeasurementsConfiguration:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/UeLevelMeasurementsConfiguration'
+
+    DnnLadnServiceAreas:
+      description: Contains a list of DNN LADN Service Areas
+      type: object
+      required:
+        - dnnLadnServiceAreas
+      properties:
+        dnnLadnServiceAreas:
+          type: array
+          items:
+            $ref: '#/components/schemas/DnnLadnServiceArea'
+          minItems: 1
+
+    DnnLadnServiceArea:
+      description: Contains DNN and LADN Service Area
+      type: object
+      required:
+        - dnn
+        - ladnServiceArea
+      properties:
+        dnn:
+          anyOf:
+            - $ref: 'TS29571_CommonData.yaml#/components/schemas/Dnn'
+            - $ref: 'TS29571_CommonData.yaml#/components/schemas/WildcardDnn'
+        ladnServiceArea:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Tai'
+          minItems: 1
 
     TimeSyncData:
+      description: Contains Time Synchronization Data
       type: object
       required:
         - authorized
@@ -3222,40 +3471,12 @@ components:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/Tai'
           minItems: 1
         clockQualityDetailLevel:
-          $ref: '#/components/schemas/ClockQualityDetailLevel'
-        clockQualityAcceptanceCriteria:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClockQualityAcceptanceCriterion'
-          minItems: 1
-
-    ClockQualityAcceptanceCriterion:
-      description: Contains a Clock Quality Acceptance Criterion.
-      type: object
-      properties:
-        synchronizationState:
-          $ref: '#/components/schemas/SynchronizationState'
-        clockQuality:
-          $ref: '#/components/schemas/ClockQuality'
-        parentTimeSource:
-          $ref: '#/components/schemas/TimeSource'
-
-    ClockQuality:
-      description: Contains Clock Quality.
-      type: object
-      properties:
-        traceabilityToGnss:
-          type: boolean
-        traceabilityToUtc:
-          type: boolean
-        frequencyStability:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uint16'
-        clockAccuracy:
-          type: string
-          pattern: '^[A-Fa-f0-9]{2}$'
-
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/ClockQualityDetailLevel'
+        clockQualityAcceptanceCriterion:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/ClockQualityAcceptanceCriterion'
 
     PcfSelectionAssistanceInfo:
+      description: Contains DNN and S-NSSAI
       type: object
       required:
         - dnn
@@ -3267,6 +3488,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
 
     PlmnRestriction:
+      description: Contains subscribed restrictions
       type: object
       properties:
         ratRestrictions:
@@ -3315,7 +3537,9 @@ components:
           minItems: 1
 
     ProSeAllowedPlmn:
-      description: Contains the PLMN identities where the Prose services are authorised to use and the authorised Prose services on this given PLMNs.
+      description: >
+        Contains the PLMN identities where the Prose services are authorised to use and the
+        authorised Prose services on this given PLMNs.
       type: object
       required:
         - visitedPlmn
@@ -3329,6 +3553,7 @@ components:
           minItems: 1
 
     CagData:
+      description: Contains Closed Access Group Data
       type: object
       required:
         - cagInfos
@@ -3347,6 +3572,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
 
     CagInfo:
+      description: Contains Closed Access Group Information
       type: object
       required:
         - allowedCagList
@@ -3359,6 +3585,7 @@ components:
           type: boolean
 
     SmfSelectionSubscriptionData:
+      description: Contains SMF selection subscription data
       type: object
       properties:
         supportedFeatures:
@@ -3374,6 +3601,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/NfGroupId'
 
     SnssaiInfo:
+      description: Contains S-NSSAI Information
       type: object
       required:
         - dnnInfos
@@ -3385,6 +3613,7 @@ components:
           minItems: 1
 
     DnnInfo:
+      description: Contains DNN Information
       type: object
       required:
         - dnn
@@ -3413,13 +3642,9 @@ components:
         hrSboAllowed:
           type: boolean
           default: false
-        ladnServiceArea:
-          type: array
-          items:
-            $ref: 'TS29571_CommonData.yaml#/components/schemas/Tai'
-          minItems: 1
 
     Nssai:
+      description: Contains Network Slice Selection Assistance Information
       type: object
       required:
        - defaultSingleNssais
@@ -3439,16 +3664,26 @@ components:
         provisioningTime:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
         additionalSnssaiData:
-          description: A map(list of key-value pairs) where singleNssai serves as key of AdditionalSnssaiData
+          description: >
+            A map(list of key-value pairs) where singleNssai serves as key of AdditionalSnssaiData
           type: object
           additionalProperties:
             $ref: '#/components/schemas/AdditionalSnssaiData'
           minProperties: 1
         suppressNssrgInd:
           type: boolean
+        nssaiValidityTimeInfo:
+          description: >
+            A map(list of key-value pairs where single Nssai serves as key)
+            of the current validity time
+          type: object
+          additionalProperties:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
+          minProperties: 1
       nullable: true
 
     UeContextInAmfData:
+      description: Contains UE Context In AMF Data
       type: object
       properties:
         epsInterworkingInfo:
@@ -3462,10 +3697,12 @@ components:
           maxItems: 2
 
     UeContextInSmfData:
+      description: Contains UE Context In SMF Data
       type: object
       properties:
         pduSessions:
-          description: A map (list of key-value pairs where PduSessionId serves as key) of PduSessions
+          description: >
+            A map (list of key-value pairs where PduSessionId serves as key) of PduSessions
           type: object
           additionalProperties:
             $ref: '#/components/schemas/PduSession'
@@ -3478,6 +3715,7 @@ components:
           $ref: '#/components/schemas/EmergencyInfo'
 
     EmergencyInfo:
+      description: Contains Emergency Information
       type: object
       oneOf:
         - required:
@@ -3496,9 +3734,11 @@ components:
           default: false
         plmnId:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/PlmnId'
-
+        emergencyRegistrationTime:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
 
     PduSession:
+      description: Contains PDU Session
       type: object
       required:
         - dnn
@@ -3515,6 +3755,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
 
     AmfInfo:
+      description: Contains AMF Information
       type: object
       required:
         - amfInstanceId
@@ -3528,6 +3769,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/AccessType'
 
     PgwInfo:
+      description: Contains PGW Information
       type: object
       required:
         - dnn
@@ -3548,8 +3790,11 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/NfInstanceId'
         registrationTime:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
+        wildcardInd:
+          type: boolean
 
     SessionManagementSubscriptionData:
+      description: Contains Session Management Subscription Data
       type: object
       required:
         - singleNssai
@@ -3557,7 +3802,9 @@ components:
         singleNssai:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
         dnnConfigurations:
-          description: A map (list of key-value pairs where Dnn, or optionally the Wildcard DNN, serves as key) of DnnConfigurations
+          description: >
+            A map (list of key-value pairs where Dnn, or optionally the Wildcard DNN, serves as key)
+            of DnnConfigurations
           type: object
           additionalProperties:
             $ref: '#/components/schemas/DnnConfiguration'
@@ -3581,7 +3828,8 @@ components:
         sharedTraceDataId:
           $ref: '#/components/schemas/SharedDataId'
         expectedUeBehavioursList:
-          description: A map(list of key-value pairs) where Dnn serves as key of ExpectedUeBehaviourData
+          description: >
+            A map(list of key-value pairs) where Dnn serves as key of ExpectedUeBehaviourData
           type: object
           additionalProperties:
             $ref: '#/components/schemas/ExpectedUeBehaviourData'
@@ -3607,7 +3855,8 @@ components:
             minProperties: 1
           minProperties: 1
         suggestedPacketNumDlList:
-          description: A map(list of key-value pairs) where Dnn serves as key of SuggestedPacketNumDl
+          description: >
+            A map(list of key-value pairs) where Dnn serves as key of SuggestedPacketNumDl
           type: object
           additionalProperties:
             $ref: '#/components/schemas/SuggestedPacketNumDl'
@@ -3616,10 +3865,21 @@ components:
           $ref: '#/components/schemas/3GppChargingCharacteristics'
         nsacMode:
           $ref: '#/components/schemas/NsacAdmissionMode'
+        sessInactTimer:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/DurationSec'
+        onDemand:
+          type: boolean
+          default: false
         supportedFeatures:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
+        additionalSharedDnnConfigurationsIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/SharedDataId'
+          minItems: 1
 
     DnnConfiguration:
+      description: Contains DNN Configuration
       type: object
       required:
         - pduSessionTypes
@@ -3719,6 +3979,7 @@ components:
           default: false
 
     NiddInformation:
+      description: Contains NIDD Information
       type: object
       required:
         - afId
@@ -3731,6 +3992,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/ExternalGroupId'
 
     IpAddress:
+      description: IP Address
       type: object
       oneOf:
         - required:
@@ -3748,6 +4010,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix'
 
     PduSessionTypes:
+      description: Contains a list of PDU session types
       type: object
       properties:
         defaultSessionType:
@@ -3759,6 +4022,7 @@ components:
           minItems: 1
 
     SscModes:
+      description: Contains a list of SSC Modes
       type: object
       required:
         - defaultSscMode
@@ -3773,6 +4037,7 @@ components:
           maxItems: 2
 
     SmsSubscriptionData:
+      description: Contains SMS Subscription Data
       type: object
       properties:
         smsSubscribed:
@@ -3783,6 +4048,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
 
     SmsManagementSubscriptionData:
+      description: Contains SMS Management Subscription Data
       type: object
       properties:
         supportedFeatures:
@@ -3806,8 +4072,11 @@ components:
           minItems: 1
         traceData:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/TraceData'
+        sharedTraceDataId:
+          $ref: '#/components/schemas/SharedDataId'
 
     SdmSubscription:
+      description: Contains SDM Subscriptions to Notifications
       type: object
       required:
         - nfInstanceId
@@ -3872,13 +4141,16 @@ components:
           type: boolean
           default: false
         expectedUeBehaviourThresholds:
-          description: A map(list of key-value pairs) where a valid JSON pointer serves as key of expectedUeBehaviourThresholds
+          description: >
+            A map(list of key-value pairs) where a valid JSON pointer serves as key of
+            expectedUeBehaviourThresholds
           type: object
           additionalProperties:
             $ref: '#/components/schemas/ExpectedUeBehaviourThreshold'
           minProperties: 1
 
     SdmSubsModification:
+      description: Contains modification information
       type: object
       properties:
         expires:
@@ -3889,13 +4161,16 @@ components:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/Uri'
           minItems: 1
         expectedUeBehaviourThresholds:
-          description: A map(list of key-value pairs) where a valid JSON pointer serves as key of expectedUeBehaviourThresholds
+          description: >
+            A map(list of key-value pairs) where a valid JSON pointer serves as key of
+            expectedUeBehaviourThresholds
           type: object
           additionalProperties:
             $ref: '#/components/schemas/ExpectedUeBehaviourThreshold'
           minProperties: 1
 
     ModificationNotification:
+      description: Contains notifications
       type: object
       required:
         - notifyItems
@@ -3909,6 +4184,7 @@ components:
           type: string
 
     IdTranslationResult:
+      description: Contains Identifier translation result
       type: object
       required:
         - supi
@@ -3931,6 +4207,7 @@ components:
           minItems: 1
 
     AcknowledgeInfo:
+      description: Contains acknowledgement information
       type: object
       required:
         - provisioningTime
@@ -3950,6 +4227,7 @@ components:
           $ref: '#/components/schemas/UpuTransparentContainer'
 
     SorInfo:
+      description: Contains steering of roaming information
       type: object
       properties:
         steeringContainer:
@@ -3966,6 +4244,10 @@ components:
           $ref: '#/components/schemas/SorTransparentContainer'
         sorCmci:
           $ref: '#/components/schemas/SorCmci'
+        sorSnpnSi:
+          $ref: '#/components/schemas/SorSnpnSi'
+        sorSnpnSiLs:
+          $ref: '#/components/schemas/SorSnpnSiLs'
         storeSorCmciInMe:
           type: boolean
         usimSupportOfSorCmci:
@@ -3975,6 +4257,7 @@ components:
         - provisioningTime
 
     SharedDataIds:
+      description: Contains IDs of Shared Data
       type: array
       items:
         $ref: '#/components/schemas/SharedDataId'
@@ -3982,6 +4265,7 @@ components:
       uniqueItems: true
 
     UpuInfo:
+      description: Contains UE Parameter Update Information
       type: object
       properties:
         upuDataList:
@@ -4004,8 +4288,8 @@ components:
       required:
         - provisioningTime
 
-
     SharedData:
+      description: Contains Shared Data
       type: object
       required:
         - sharedDataId
@@ -4019,7 +4303,9 @@ components:
         sharedSmsMngSubsData:
           $ref: '#/components/schemas/SmsManagementSubscriptionData'
         sharedDnnConfigurations:
-          description: A map(list of key-value pairs) where Dnn, or optionally the Wildcard DNN, serves as key of DnnConfiguration
+          description: >
+            A map(list of key-value pairs) where Dnn, or optionally the Wildcard DNN,
+            serves as key of DnnConfiguration
           type: object
           additionalProperties:
             $ref: '#/components/schemas/DnnConfiguration'
@@ -4039,7 +4325,9 @@ components:
             $ref: '#/components/schemas/VnGroupData'
           minProperties: 1
         treatmentInstructions:
-          description: A map(list of key-value pairs) where JSON pointer pointing to an attribute within the SharedData serves as key of SharedDataTreatmentInstruction
+          description: >
+            A map(list of key-value pairs) where JSON pointer pointing to an attribute within
+            the SharedData serves as key of SharedDataTreatmentInstruction
           type: object
           additionalProperties:
             $ref: '#/components/schemas/SharedDataTreatmentInstruction'
@@ -4050,6 +4338,7 @@ components:
           $ref: 'TS29503_Nudm_PP.yaml#/components/schemas/EcsAddrConfigInfo'
 
     TraceDataResponse:
+      description: Contains Trace Data Response
       type: object
       properties:
         traceData:
@@ -4058,6 +4347,7 @@ components:
           $ref: '#/components/schemas/SharedDataId'
 
     SteeringContainer:
+      description: Contains Steering Info or a secured packet
       oneOf:
         - type: array
           items:
@@ -4066,6 +4356,7 @@ components:
         - $ref: '#/components/schemas/SecuredPacket'
 
     GroupIdentifiers:
+      description: Contains Information to identify a group of Ues
       type: object
       properties:
         extGroupId:
@@ -4079,6 +4370,7 @@ components:
           minItems: 1
 
     VnGroupData:
+      description: Contains VN Group Data
       type: object
       properties:
         pduSessionTypes:
@@ -4105,8 +4397,15 @@ components:
           minItems: 1
         dnAaaFqdn:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Fqdn'
+        5gVnGroupCommunicationInd:
+          type: boolean
+        5gVnGroupCommunicationType:
+          $ref: 'TS29503_Nudm_PP.yaml#/components/schemas/5GVnGroupCommunicationType'
+        maxGroupDataRate:
+          $ref: 'TS29503_Nudm_PP.yaml#/components/schemas/MaxGroupDataRate'
 
     AppDescriptor:
+      description: Contains an Application Descriptor
       type: object
       properties:
         osId:
@@ -4115,6 +4414,7 @@ components:
           type: string
 
     AdditionalSnssaiData:
+      description: Contains additional S-NSSAI Data
       type: object
       properties:
         requiredAuthnAuthz:
@@ -4130,8 +4430,14 @@ components:
           $ref: '#/components/schemas/NsacAdmissionMode'
         validTimePeriod:
           $ref: '#/components/schemas/ValidTimePeriod'
+        deregInactTimer:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/DurationSec'
+        onDemand:
+          type: boolean
+          default: false
 
     AppPortId:
+      description: Contains the Application Port Id
       type: object
       properties:
         destinationPort:
@@ -4140,6 +4446,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Uint16'
 
     LcsPrivacyData:
+      description: Contains LCS Privacy Data
       type: object
       properties:
         lpi:
@@ -4154,9 +4461,16 @@ components:
         evtRptExpectedArea:
           $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/GeographicArea'
         areaUsageInd:
-          $ref: '#/components/schemas/AreaUsageInd'
+          allOf:
+            - $ref: '#/components/schemas/AreaUsageInd'
+          default: INSIDE_REPORTING
+        upLocRepIndAf:
+          allOf:
+            - $ref: '#/components/schemas/UpLocRepIndAf'
+          default: USER_PLANE_REPORT_NOT_ALLOWED
 
     Lpi:
+      description: Contains Location Privacy Indication
       type: object
       required:
         - locationPrivacyInd
@@ -4167,6 +4481,7 @@ components:
           $ref: '#/components/schemas/ValidTimePeriod'
 
     UnrelatedClass:
+      description: Contains Unrelated Class
       type: object
       required:
         - defaultUnrelatedClass
@@ -4182,6 +4497,7 @@ components:
           minItems: 1
 
     PlmnOperatorClass:
+      description: Contains PLMN Operator Class
       type: object
       required:
         - lcsClientClass
@@ -4196,6 +4512,7 @@ components:
           minItems: 1
 
     ValidTimePeriod:
+      description: Contains the validity time period
       type: object
       properties:
         startTime:
@@ -4204,6 +4521,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
 
     ExternalUnrelatedClass:
+      description: Contains External Unrelated Class
       properties:
         lcsClientExternals:
           type: array
@@ -4222,6 +4540,7 @@ components:
           minItems: 1
 
     AfExternal:
+      description: Unrelated Class identified by Application Function
       type: object
       properties:
         afId:
@@ -4237,6 +4556,7 @@ components:
           $ref: '#/components/schemas/ValidTimePeriod'
 
     LcsClientExternal:
+      description: Unrelated Class identified by LCS client
       type: object
       properties:
         allowedGeographicArea:
@@ -4250,6 +4570,7 @@ components:
           $ref: '#/components/schemas/ValidTimePeriod'
 
     LcsClientGroupExternal:
+      description: Unrelated Class identified by LCS client group
       type: object
       properties:
         lcsClientGroupId:
@@ -4265,6 +4586,7 @@ components:
           $ref: '#/components/schemas/ValidTimePeriod'
 
     ServiceTypeUnrelatedClass:
+      description: Contains Service Type Unrelated Class
       type: object
       required:
         - serviceType
@@ -4289,6 +4611,7 @@ components:
           minItems: 1
 
     LcsMoData:
+      description: LCS Mobile Originated Subscription Data
       type: object
       required:
         - allowedServiceClasses
@@ -4302,6 +4625,7 @@ components:
           $ref: '#/components/schemas/LcsBroadcastAssistanceTypesData'
 
     LcsSubscriptionData:
+      description: LSC Subscription Data
       type: object
       properties:
         configuredLmfId:
@@ -4310,9 +4634,12 @@ components:
           $ref: '#/components/schemas/PruInd'
         lpHapType:
           $ref: 'TS29518_Namf_Location.yaml#/components/schemas/LpHapType'
-
+        userPlanePosIndLmf:
+          type: boolean
+          default: false
 
     LcsBroadcastAssistanceTypesData:
+      description: LCS Broadcast Assistance Data Types
       type: object
       required:
         - locationAssistanceType
@@ -4321,6 +4648,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Binary'
 
     EcRestrictionDataWb:
+      description: Enhanced Coverage Restriction data
       type: object
       anyOf:
         - required: [ ecModeARestricted ]
@@ -4332,6 +4660,7 @@ components:
           type: boolean
 
     ExpectedUeBehaviourData:
+      description: Contains expected UE behaviour data
       type: object
       properties:
         stationaryIndication:
@@ -4349,7 +4678,9 @@ components:
           items:
             $ref: 'TS29503_Nudm_PP.yaml#/components/schemas/LocationArea'
           minItems: 1
-          description: Identifies the UE's expected geographical movement. The attribute is only applicable in 5G.
+          description: >
+            Identifies the UE's expected geographical movement. The attribute is only
+            applicable in 5G.
         trafficProfile:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/TrafficProfile'
         batteryIndication:
@@ -4364,6 +4695,7 @@ components:
           pattern: '^[0]\.[0-9]{2}$|^1\.00$'
 
     SuggestedPacketNumDl:
+      description: Contains suggested number of DL packets
       type: object
       required:
         - suggestedPacketNumDl
@@ -4375,6 +4707,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
 
     FrameRouteInfo:
+      description: Contains Frame Route Information
       type: object
       properties:
         ipv4Mask:
@@ -4383,6 +4716,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix'
 
     SorUpdateInfo:
+      description: Contains Steering Of Roaming Update Information
       type: object
       required:
         - vplmnId
@@ -4393,6 +4727,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/SupportedFeatures'
 
     EnhancedCoverageRestrictionData:
+      description: Contains Enhanced Coverage Restriction Data
       type: object
       properties:
         plmnEcInfoList:
@@ -4402,6 +4737,7 @@ components:
           minItems: 1
 
     EdrxParameters:
+      description: Contains eDRX parameters
       type: object
       required:
         - ratType
@@ -4414,6 +4750,7 @@ components:
           pattern: '^([0-1]{4})$'
 
     PtwParameters:
+      description: Contains paging time window parameters
       type: object
       required:
         - operationMode
@@ -4429,6 +4766,7 @@ components:
           pattern: '^([0-1]{8})$'
 
     UeId:
+      description: Identifier of UE
       type: object
       required:
         - supi
@@ -4442,6 +4780,7 @@ components:
           minItems: 1
 
     V2xSubscriptionData:
+      description: V2X Subscription Data
       type: object
       properties:
         nrV2xServicesAuth:
@@ -4454,6 +4793,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/BitRate'
 
     DefaultUnrelatedClass:
+      description: Default Unrelated Class
       type: object
       properties:
         allowedGeographicArea:
@@ -4474,6 +4814,7 @@ components:
           minItems: 1
 
     ContextInfo:
+      description: Context Information
       type: object
       properties:
         origHeaders:
@@ -4488,7 +4829,9 @@ components:
           minItems: 1
 
     AerialUeSubscriptionInfo:
-      description: Contains the Aerial UE Subscription Information, it at least contains the Aerial UE Indication.
+      description: >
+        Contains the Aerial UE Subscription Information, it at least contains
+        the Aerial UE Indication.
       type: object
       required:
         - aerialUeInd
@@ -4499,6 +4842,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Gpsi'
 
     SmSubsData:
+      description: Session Management Subscription Data
       oneOf:
         - type: array
           items:
@@ -4507,7 +4851,9 @@ components:
         - $ref: '#/components/schemas/ExtendedSmSubsData'
 
     ExtendedSmSubsData:
-      description: Contains identifiers of shared Session Management Subscription Data and optionally individual Session Management Subscription Data.
+      description: >
+        Contains identifiers of shared Session Management Subscription Data
+        and optionally individual Session Management Subscription Data.
       type: object
       required:
         - sharedSmSubsDataIds
@@ -4523,6 +4869,7 @@ components:
             $ref: '#/components/schemas/SessionManagementSubscriptionData'
 
     ImmediateReport:
+      description: Contains the immediate report
       oneOf:
         - $ref: '#/components/schemas/SubscriptionDataSets'
         - type: array
@@ -4542,7 +4889,7 @@ components:
           items:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/MbsSessionId'
           minItems: 1
-        mbsAssistanceInfo:
+        ueMbsAssistanceInfo:
           type: array
           items:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/MbsSessionId'
@@ -4553,7 +4900,8 @@ components:
       type: object
       properties:
         userConsentPerPurposeList:
-          description: A map(list of key-value pairs) where user consent purpose serves as key of user consent
+          description: >
+            A map(list of key-value pairs) where user consent purpose serves as key of user consent
           type: object
           additionalProperties:
             $ref: '#/components/schemas/UserConsent'
@@ -4603,10 +4951,7 @@ components:
         - serviceIds
       properties:
         afReqAuthorizations:
-          type: array
-          items:
-            $ref: '#/components/schemas/AfRequestAuthorization'
-          minItems: 1
+          $ref: '#/components/schemas/AfRequestAuthorization'
         serviceIds:
           type: array
           items:
@@ -4617,12 +4962,51 @@ components:
       description: AF Request Authorization
       type: object
       properties:
+        gptpAllowedInfoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/GptpAllowedInfo'
+          minItems: 1
+        astiAllowedInfo:
+          $ref: '#/components/schemas/AstiAllowedInfo'
+      oneOf:
+        - required: [ gptpAllowedInfoList ]
+        - required: [ astiAllowedInfo ]
+
+    GptpAllowedInfo:
+      description: AF authorization information for gPTP
+      type: object
+      properties:
         dnn:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Dnn'
         sNssai:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Snssai'
-        gtptAllowed:
+        gptpAllowed:
           type: boolean
+        coverageArea:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Tai'
+          minItems: 1
+        uuTimeSyncErrBdgt:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
+        tempVals:
+          type: array
+          items:
+            $ref: 'TS29514_Npcf_PolicyAuthorization.yaml#/components/schemas/TemporalValidity'
+          minItems: 1
+        acceptableInd:
+          type: boolean
+          default: false
+        clockQualityAcceptanceCriteria:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/ClockQualityAcceptanceCriterion'
+      required:
+        - gptpAllowed
+
+    AstiAllowedInfo:
+      description: AF authorization information for ASTI
+      type: object
+      properties:
         astiAllowed:
           type: boolean
         coverageArea:
@@ -4637,6 +5021,16 @@ components:
           items:
             $ref: 'TS29514_Npcf_PolicyAuthorization.yaml#/components/schemas/TemporalValidity'
           minItems: 1
+        clockQualityMetricsInd:
+          type: boolean
+          default: false
+        acceptableInd:
+          type: boolean
+          default: false
+        clockQualityAcceptanceCriteria:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/ClockQualityAcceptanceCriterion'
+      required:
+        - astiAllowed
 
     TimeSyncServiceId:
       description: Time Synchronization Service ID
@@ -4664,6 +5058,7 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
 
     ConditionalCagInfo:
+      description: Conditional Closed Access Group Information
       type: object
       required:
         - allowedCagList
@@ -4679,10 +5074,19 @@ components:
           $ref: '#/components/schemas/ValidTimePeriod'
 
     AppSpecificExpectedUeBehaviourData:
+      description: Application specific expected UE behaviour data
       type: object
+      anyOf:
+        - required: [ appId ]
+        - required: [ trafficFilters ]
       properties:
         appId:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/ApplicationId'
+        trafficFilters:
+          type: array
+          items:
+            $ref: 'TS29122_CommonData.yaml#/components/schemas/FlowInfo'
+          minItems: 1
         expectedInactivityTime:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DurationSec'
         validityTime:
@@ -4695,6 +5099,7 @@ components:
           pattern: '^[0]\.[0-9]{2}$|^1\.00$'
 
     ExpectedUeBehaviourThreshold:
+      description: Expected UE Behaviour Threshold
       type: object
       properties:
         expecedUeBehaviourDatasets:
@@ -4717,63 +5122,357 @@ components:
         accuracyLevel:
           type: string
 
+    A2xSubscriptionData:
+      description: Contains A2X Subscription Data
+      type: object
+      properties:
+        nrA2xServicesAuth:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/NrA2xAuth'
+        lteA2xServicesAuth:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/LteA2xAuth'
+        nrUePc5Ambr:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/BitRate'
+        ltePc5Ambr:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/BitRate'
+
+    RangingSlPosQos:
+      description: Contains Ranging and Sidelink Positioning QoS
+      type: object
+      properties:
+        hAccuracy:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/Accuracy'
+        vAccuracy:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/Accuracy'
+        relativeHAccuracy:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/Accuracy'
+        relativeVAccuracy:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/Accuracy'
+        distanceAccuracy:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/Accuracy'
+        directionAccuracy:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/Accuracy'
+        verticalRequested:
+          type: boolean
+        responseTime:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/ResponseTime'
+        lcsQosClass:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/LcsQosClass'
+        rangingSlPosPriorityLevel:
+          type: integer
+          minimum: 1
+          maximum: 8
+        rangingSlPosDelayBudget:
+          type: integer
+          minimum: 0
+          maximum: 1023
+
+    MbsrOperationAllowed:
+      description: Indicates whether the UE is allowed for MBSR operation
+      type: object
+      properties:
+        mbsrOperationAllowedInd:
+          type: boolean
+          default: false
+        mbsrLocationInfo:
+          $ref: '#/components/schemas/MbsrLocationInfo'
+        mbsrTimeInfo:
+          $ref: '#/components/schemas/MbsrTimeInfo'
+
+    MbsrLocationInfo:
+      description: MBSR Location Information
+      type: object
+      properties:
+        mbsrLocation:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/Tai'
+          minItems: 1
+        mbsrLocationAreas:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/AreaCode'
+          minItems: 1
+
+    MbsrTimeInfo:
+      description: MBSR Time Information
+      type: object
+      properties:
+        mbsrTimeWindow:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidTimePeriod'
+          minItems: 1
+        mbsrRecurTime:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecurTime'
+          minItems: 1
+
+    RecurTime:
+      description: Contains the recurring time period
+      type: object
+      properties:
+        recurTimeWindow:
+          $ref: '#/components/schemas/ValidTimePeriod'
+        recurType:
+          $ref: '#/components/schemas/RecurType'
+        recurMonth:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/MonthOfYear'
+          minItems: 1
+        recurWeek:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 64
+          minItems: 1
+        recurDay:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/DayOfWeek'
+          minItems: 1
+        recurDate:
+          type: array
+          items:
+            $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
+          minItems: 1
+
+
+    RangingSlPrivacyData:
+      description: Contains Ranging and Sidelink Positioning Privacy Subscription Data.
+      type: object
+      properties:
+        rslppi:
+          $ref: '#/components/schemas/Rslppi'
+        rangingSlUnrelatedClass:
+          $ref: '#/components/schemas/RangingSlUnrelatedClass'
+        rangingSlPlmnOperatorClasses:
+          type: array
+          items:
+            $ref: '#/components/schemas/RangingSlPlmnOperatorClass'
+          minItems: 1
+        rangingSlEvtRptExpectedArea:
+          $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/GeographicArea'
+
+    Rslppi:
+      description: Describes Ranging and Sidelink Positioning Privacy Indication.
+      type: object
+      required:
+        - rangingSlPrivacyInd
+      properties:
+        rangingSlPrivacyInd:
+          $ref: '#/components/schemas/RangingSlPrivacyInd'
+        validTimePeriod:
+          $ref: '#/components/schemas/ValidTimePeriod'
+
+    RangingSlUnrelatedClass:
+      description: Describes Call/Session unrelated Classes for ranging and sidelink positioning.
+      type: object
+      required:
+        - rangingSlDefaultUnrelatedClass
+      properties:
+        rangingSlDefaultUnrelatedClass:
+          $ref: '#/components/schemas/RangingSlDefaultUnrelatedClass'
+        rangingSlExternalUnrelatedClass:
+          $ref: '#/components/schemas/RangingSlExternalUnrelatedClass'
+        rangingSlAppIDUnrelatedClasses:
+          type: array
+          items:
+            $ref: '#/components/schemas/RangingSlAppIDUnrelatedClass'
+          minItems: 1
+
+    RangingSlDefaultUnrelatedClass:
+      description: >
+        Describes default Call/Session unrelated Class subscription for ranging and sidelink 
+        positioning for unidentified value added LCS clients or AFs.
+      type: object
+      properties:
+        allowedGeographicArea:
+          type: array
+          items:
+            $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/GeographicArea'
+          minItems: 1
+        rangingSlPrivacyCheckRelatedAction:
+          $ref: '#/components/schemas/RangingSlPrivacyCheckRelatedAction'
+        codeWordInd:
+          $ref: '#/components/schemas/CodeWordInd'
+        validTimePeriod:
+          $ref: '#/components/schemas/ValidTimePeriod'
+        codeWordList:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeWord'
+          minItems: 1
+
+    RangingSlPlmnOperatorClass:
+      description: Describes PLMN Operator Class for ranging and sidelink positioning.
+      type: object
+      required:
+        - rangingSlLcsClientClass
+        - lcsClientIds
+      properties:
+        rangingSlLcsClientClass:
+          $ref: '#/components/schemas/LcsClientClass'
+        lcsClientIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/LcsClientId'
+          minItems: 1
+
+    RangingSlExternalUnrelatedClass:
+      description: >
+        Describes Call/Session unrelated Class subscriptions for ranging and sidelink positioning 
+        for identified value added LCS Clients or AFs.
+      properties:
+        rangingSlLcsClientExternals:
+          type: array
+          items:
+            $ref: '#/components/schemas/RangingSlLcsClientExternal'
+          minItems: 1
+        rangingSlAfExternals:
+          type: array
+          items:
+            $ref: '#/components/schemas/RangingSlAfExternal'
+          minItems: 1
+
+    RangingSlAfExternal:
+      description: >
+        Describes list of Call/session Unrelated Class for ranging and sidelink positioning 
+        identified by AF in the external LCS client list.
+      type: object
+      properties:
+        afId:
+          $ref: '#/components/schemas/AfId'
+        allowedGeographicArea:
+          type: array
+          items:
+            $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/GeographicArea'
+          minItems: 1
+        rangingSlPrivacyCheckRelatedAction:
+          $ref: '#/components/schemas/RangingSlPrivacyCheckRelatedAction'
+        validTimePeriod:
+          $ref: '#/components/schemas/ValidTimePeriod'
+
+    RangingSlLcsClientExternal:
+      description: >
+        Describes list of Call/session Unrelated Class for ranging and sidelink 
+        positioningidentified by LCS client in the external LCS client list.
+      type: object
+      properties:
+        allowedGeographicArea:
+          type: array
+          items:
+            $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/GeographicArea'
+          minItems: 1
+        rangingSlPrivacyCheckRelatedAction:
+          $ref: '#/components/schemas/RangingSlPrivacyCheckRelatedAction'
+        validTimePeriod:
+          $ref: '#/components/schemas/ValidTimePeriod'
+
+
+    RangingSlAppIDUnrelatedClass:
+      description: >
+        Describes Call/Session unrelated Class subscriptions for ranging and sidelink positioning 
+        service for identified service type for UE.
+      type: object
+      required:
+        - rangingSlAppID
+      properties:
+        rangingSlAppID:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/ApplicationId'
+        allowedGeographicArea:
+          type: array
+          items:
+            $ref: 'TS29572_Nlmf_Location.yaml#/components/schemas/GeographicArea'
+          minItems: 1
+        rangingSlPrivacyCheckRelatedAction:
+          $ref: '#/components/schemas/RangingSlPrivacyCheckRelatedAction'
+        codeWordInd:
+          $ref: '#/components/schemas/CodeWordInd'
+        validTimePeriod:
+          $ref: '#/components/schemas/ValidTimePeriod'
+        codeWordList:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeWord'
+          minItems: 1
+
 
 # SIMPLE TYPES:
 
     UeUsageType:
+      description: UE Usage Type
       type: integer
 
     MpsPriorityIndicator:
+      description: MPS priority indicator
       type: boolean
 
     McsPriorityIndicator:
+      description: MCS priority indicator
       type: boolean
 
     DnnIndicator:
+      description: DNN indicator
       type: boolean
 
     LboRoamingAllowed:
+      description: LBO Roaming allowed indicator
       type: boolean
 
     SmsSubscribed:
+      description: SMS subscribed indicator
       type: boolean
 
     3GppChargingCharacteristics:
+      description: 3GPP Charging Characteristics
       type: string
 
     MicoAllowed:
+      description: Mobile Initiated Connection Only indicator
       type: boolean
 
     SharedDataId:
+      description: Identifier of shared data
       type: string
       pattern: '^[0-9]{5,6}-.+$'
 
     IwkEpsInd:
+      description: Interworking with EPS indication
       type: boolean
 
     SecuredPacket:
+      description: Secured Packet
       type: string
       format: byte
 
     UpuRegInd:
+      description: Re-registration request indicator for UPU
       type: boolean
 
     ExtGroupId:
+      description: External Identifier of a group of UEs
       type: string
       pattern: '^extgroupid-[^@]+@[^@]+$'
 
     NbIoTUePriority:
+      description: NB-IoT UE Priority
       type: integer
       minimum: 0
       maximum: 255
 
     CodeWord:
+      description: Contains the codeword
       type: string
 
     AfId:
+      description: Application Function Identifier
       type: string
 
     LcsClientId:
+      description: LSC client Identifier
       type: string
 
     SorTransparentContainer:
@@ -4783,12 +5482,20 @@ components:
       $ref: 'TS29571_CommonData.yaml#/components/schemas/Bytes'
 
     IpIndex:
-      description: Represents the IP Index to be sent from UDM to the SMF (its value can be either an integer or a string)
+      description: >
+        Represents the IP Index to be sent from UDM to the SMF
+        (its value can be either an integer or a string)
       anyOf:
         - type: integer
         - type: string
 
     SorCmci:
+      $ref: 'TS29571_CommonData.yaml#/components/schemas/Bytes'
+
+    SorSnpnSi:
+      $ref: 'TS29571_CommonData.yaml#/components/schemas/Bytes'
+
+    SorSnpnSiLs:
       $ref: 'TS29571_CommonData.yaml#/components/schemas/Bytes'
 
     RangingSlPosSubscriptionData:
@@ -4802,9 +5509,13 @@ components:
           items:
             $ref: '#/components/schemas/RangingSlPosPlmn'
           minItems: 1
+        rangingSlPosQos:
+          $ref: '#/components/schemas/RangingSlPosQos'
 
     RangingSlPosPlmn:
-      description: Contains the PLMN identities where the Ranging/SL Positioning services are authorised to use and the authorised Ranging/SL Positioning services on this given PLMNs.
+      description: >
+        Contains the PLMN identities where the Ranging/SL Positioning services are authorised to
+        use and the authorised Ranging/SL Positioning services on this given PLMNs.
       type: object
       required:
         - rangingSlPosPlmn
@@ -4841,6 +5552,8 @@ components:
           - PROSE
           - UC
           - MBS
+          - A2X
+          - RANGINGSL_PRIVACY
         - type: string
           description: >
             This string provides forward-compatibility with future
@@ -4943,9 +5656,7 @@ components:
             content defined in the present version of this API.
 
     LcsMoServiceClass:
-      description: >
-        Indicates the requirement of the UE to request
-        its own location.
+      description: Indicates the MO-LR services allowed for a UE subscriber
       anyOf:
         - type: string
           enum:
@@ -4970,6 +5681,7 @@ components:
           - WB_N1
           - NB_N1
           - NR_N1
+          - NR_N1_REDCAP
         - type: string
           description: >
             This string provides forward-compatibility with future
@@ -5127,63 +5839,19 @@ components:
     AreaUsageInd:
       description: >
         Indicates one of the mutually exclusive global settings
-        (if the event report allowed area can be used in opposite sense or positive sense).
+        (whether the UE is allowed to generate and send the reports inside or outside the event
+        report expected area).
       anyOf:
         - type: string
           enum:
-          - OPPOSITE_SENSE
-          - POSITIVE_SENSE
+          - INSIDE_REPORTING
+          - OUTSIDE_REPORTING
         - type: string
           description: >
             This string provides forward-compatibility with future
             extensions to the enumeration but is not used to encode
             content defined in the present version of this API.
 
-    ClockQualityDetailLevel:
-      description: Indicates the Clock Quality Detail Level.
-      anyOf:
-        - type: string
-          enum:
-          - CLOCK_QUALITY_METRICS
-          - ACCEPT_INDICATION
-        - type: string
-          description: >
-            This string provides forward-compatibility with future
-            extensions to the enumeration but is not used to encode
-            content defined in the present version of this API.
-
-    SynchronizationState:
-      description: Indicates the Synchronization State.
-      anyOf:
-        - type: string
-          enum:
-          - LOCKED
-          - HOLDOVER
-          - FREERUN
-        - type: string
-          description: >
-            This string provides forward-compatibility with future
-            extensions to the enumeration but is not used to encode
-            content defined in the present version of this API.
-
-    TimeSource:
-      description: Indicates the Time Source.
-      anyOf:
-        - type: string
-          enum:
-          - PTP
-          - GNSS
-          - ATOMIC_CLOCK
-          - TERRESTRIAL_RADIO
-          - SERIAL_TIME_CODE
-          - NTP
-          - HAND_SET
-          - OTHER
-        - type: string
-          description: >
-            This string provides forward-compatibility with future
-            extensions to the enumeration but is not used to encode
-            content defined in the present version of this API.
 
     RangingSlPosAllowed:
       description: >
@@ -5197,6 +5865,9 @@ components:
           - MONITOR
           - DISCOVERER
           - DISCOVEREE
+          - LOCATED_UE
+          - SL_SERVER_UE
+          - SL_CLIENT_UE
         - type: string
           description: >
             This string provides forward-compatibility with future
@@ -5221,4 +5892,68 @@ components:
             This string provides forward-compatibility with future
             extensions to the enumeration but is not used to encode
             content defined in the present version of this API.
+
+    UpLocRepIndAf:
+      description: >
+        Indicates one of the mutually exclusive global settings for location reporting over user
+        plane connectivity to an LCS client or AF.
+      anyOf:
+        - type: string
+          enum:
+          - USER_PLANE_REPORT_ALLOWED
+          - USER_PLANE_REPORT_NOT_ALLOWED
+        - type: string
+          description: >
+            This string provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+    RecurType:
+      description: Indicates the recurrence applicable to a time window.
+      anyOf:
+        - type: string
+          enum:
+          - DAILY
+          - WEEKLY
+          - MONTHLY_BY_DATE
+          - MONTHLY_BY_DAY
+          - YEARLY
+          - WEEKDAYS_ONLY
+          - WEEKENDS_ONLY
+        - type: string
+          description: >
+            This string provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+
+    RangingSlPrivacyInd:
+      description: >
+        Indicates one of the mutually exclusive global settings
+        (if the ranging and sidelink positioning is allowed or disallowed).
+      anyOf:
+        - type: string
+          enum:
+          - RANGINGSL_DISALLOWED
+          - RANGINGSL_ALLOWED
+        - type: string
+          description: >
+            This string provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+
+    RangingSlPrivacyCheckRelatedAction:
+      description: Indicates actions related to privacy check for ranging and sidelink positioning.
+      anyOf:
+        - type: string
+          enum:
+          - RANGINGSL_NOT_ALLOWED
+          - RANGINGSL_ALLOWED_WITH_NOTIFICATION
+          - RANGINGSL_ALLOWED_WITHOUT_NOTIFICATION
+          - RANGINGSL_ALLOWED_WITHOUT_RESPONSE
+          - RANGINGSL_RESTRICTED_WITHOUT_RESPONSE
+        - type: string
+          description: >
+            This string provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+
 

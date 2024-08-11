@@ -1,11 +1,11 @@
 openapi: 3.0.0
 
 info:
-  version: '1.3.0-alpha.1'
+  version: '1.3.0'
   title: 'JOSE Protected Message Forwarding API'
   description: |
     N32-f Message Forwarding Service.  
-    © 2022, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
+    © 2024, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
     All rights reserved.
 servers:
   - url: '{apiRoot}/n32f-forward/v1'
@@ -14,7 +14,7 @@ servers:
         default: https://example.com
         description:  apiRoot as defined in clause 4.4 of 3GPP TS 29.501.
 externalDocs:
-  description: 3GPP TS 29.573 V18.1.0; 5G System; Public Land Mobile Network (PLMN) Interconnection; Stage 3
+  description: 3GPP TS 29.573 V18.7.0; 5G System; Public Land Mobile Network (PLMN) Interconnection; Stage 3
   url: https://www.3gpp.org/ftp/Specs/archive/29_series/29.573/
 
 paths:
@@ -27,12 +27,12 @@ paths:
       parameters:
         - name: Content-Encoding
           in: header
-          description: Content-Encoding, described in IETF RFC 7231
+          description: Content-Encoding, described in IETF RFC 9110
           schema:
             type: string
         - name: Accept-Encoding
           in: header
-          description: Accept-Encoding, described in IETF RFC 7231
+          description: Accept-Encoding, described in IETF RFC 9110
           schema:
             type: string
         - name: 3gpp-Sbi-Message-Priority
@@ -56,11 +56,11 @@ paths:
                 $ref: '#/components/schemas/N32fReformattedRspMsg'
           headers:
             Accept-Encoding:
-              description: Accept-Encoding, described in IETF RFC 7694
+              description: Accept-Encoding, described in IETF RFC 9110
               schema:
                 type: string
             Content-Encoding:
-              description: Content-Encoding, described in IETF RFC 7231
+              description: Content-Encoding, described in IETF RFC 9110
               schema:
                 type: string
             3gpp-Sbi-Message-Priority:
@@ -72,7 +72,11 @@ paths:
         '401':
           $ref: 'TS29571_CommonData.yaml#/components/responses/401'
         '403':
-          $ref: 'TS29571_CommonData.yaml#/components/responses/403'
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailsMsgForwarding'
         '404':
           $ref: 'TS29571_CommonData.yaml#/components/responses/404'
         '411':
@@ -93,7 +97,7 @@ paths:
           description: Unexpected error
 
     options:
-      summary: Discover communication options supported by next hop (IPX or SEPP)
+      summary: Discover communication options supported by next hop (RI or SEPP)
       operationId: N32fProcessOptions
       tags:
         - N32-f Forward
@@ -102,7 +106,7 @@ paths:
           description: No Content
           headers:
             Accept-Encoding:
-              description: Accept-Encoding, described in IETF RFC 7694
+              description: Accept-Encoding, described in IETF RFC 9110
               schema:
                 type: string
         '400':
@@ -130,6 +134,11 @@ paths:
 
 components:
   schemas:
+
+#
+# STRUCTURED TYPES
+#
+
     FlatJweJson:
       description: Contains the integrity protected reformatted block
       type: object
@@ -155,7 +164,7 @@ components:
           type: string
 
     FlatJwsJson:
-      description: Contains the modification from IPXes on path
+      description: Contains the modification from RIs on path
       type: object
       required:
         - payload
@@ -229,7 +238,8 @@ components:
             $ref: '#/components/schemas/HttpPayload'
           minItems: 1
     RequestLine:
-      description: Contains the request line of the HTTP API request being reformatted and forwarded over N32-f
+      description: >
+        Contains the request line of the HTTP API request being reformatted and forwarded over N32-f
       type: object
       required:
         - method
@@ -250,6 +260,12 @@ components:
           type: string
         queryFragment:
           type: string
+        pathQueryProtectInd:
+          type: array
+          items:
+            $ref: 'TS29573_N32_Handshake.yaml#/components/schemas/IeLocation'
+          minItems: 1
+          maxItems: 2
     HttpHeader:
       description: Contains the encoding of HTTP headers in the API request / response
       type: object
@@ -262,7 +278,7 @@ components:
         value:
           $ref: '#/components/schemas/EncodedHttpHeaderValue'
     HttpPayload:
-      description: Contains the encoding of JSON payload in the API request / response
+      description: Contains the encoding of JSON content in the API request / response
       type: object
       required:
         - iePath
@@ -290,6 +306,8 @@ components:
           type: string
         authorizedIpxId:
           type: string
+        riFqdn:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Fqdn'
     Modifications:
       description: Information on inserting of the modifications entry
       type: object
@@ -318,3 +336,27 @@ components:
       oneOf:
         - type: string
         - $ref: '#/components/schemas/IndexToEncryptedValue'
+
+    ProblemDetailsMsgForwarding:
+      description: N32-f message forwarding Error Detail
+      allOf:
+        - $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        - $ref: '#/components/schemas/AdditionInfoMsgForwarding'
+
+    AdditionInfoMsgForwarding:
+      description: Problem Details extensions for N32-f message forwarding
+      properties:
+        suggestedStatusCode:
+          type: integer
+        suggestedProblemDetails:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/ProblemDetails'
+        riErrorInformation:
+          $ref: 'TS29573_N32_Handshake.yaml#/components/schemas/RiErrorInformation'
+
+#
+# SIMPLE TYPES
+#
+
+#
+# ENUMS
+#

@@ -2,14 +2,14 @@ openapi: 3.0.0
 
 info:
   title: 'UPF Event Exposure Service'
-  version: 1.1.0-alpha.2
+  version: 1.1.0
   description: |
     UPF Event Exposure Service.  
-    © 2023, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
+    © 2024, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
     All rights reserved.
 
 externalDocs:
-  description: 3GPP TS 29.564 V18.1.0; 5G System; User Plane Function Services; Stage 3.
+  description: 3GPP TS 29.564 V18.5.0; 5G System; User Plane Function Services; Stage 3.
   url: https://www.3gpp.org/ftp/Specs/archive/29_series/29.564/
 
 servers:
@@ -72,6 +72,8 @@ paths:
           $ref: 'TS29571_CommonData.yaml#/components/responses/429'
         '500':
           $ref: 'TS29571_CommonData.yaml#/components/responses/500'
+        '501':
+          $ref: 'TS29571_CommonData.yaml#/components/responses/501'
         '502':
           $ref: 'TS29571_CommonData.yaml#/components/responses/502'
         '503':
@@ -269,6 +271,8 @@ components:
           minItems: 1
         correlationId:
           type: string
+        achievedSampRatio:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/SamplingRatio'
 
     NotificationItem:
       description: represents a report on one subscribed event
@@ -279,7 +283,7 @@ components:
       anyOf:
         - required: [ ueIpv4Addr ]
         - required: [ ueIpv6Prefix ]
-# anyOf construct requires further considerations to cover non-IP PDU sessions and subscription for ANY UE
+        - required: [ ueMacAddr ]
       properties:
         eventType:
           $ref: '#/components/schemas/EventType'
@@ -331,12 +335,6 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/NfInstanceId'
         ueIpAddress:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/IpAddr'
-        supi:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/Supi'
-        gpsi:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/Gpsi'
-        pei:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/Pei'
         anyUe:
           type: boolean
           default: false
@@ -372,6 +370,14 @@ components:
           minItems: 1
         notifFlag:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/NotificationFlag'
+        mutingExcInstructions:
+          writeOnly: true
+          allOf:
+            - $ref: 'TS29571_CommonData.yaml#/components/schemas/MutingExceptionInstructions'
+        mutingNotSettings:
+          readOnly: true
+          allOf:
+            - $ref: 'TS29571_CommonData.yaml#/components/schemas/MutingNotificationsSettings'
       required:
         - trigger
 
@@ -397,7 +403,7 @@ components:
         trafficFilters:
           type: array
           items:
-            $ref: 'TS29122_CommonData.yaml#/components/schemas/FlowInfo'
+            $ref: 'TS29512_Npcf_SMPolicyControl.yaml#/components/schemas/FlowInformation'
           minItems: 1        
         granularityOfMeasurement:
           $ref: '#/components/schemas/GranularityOfMeasurement'
@@ -441,7 +447,7 @@ components:
       type: object
       properties:
         reportingUrgency:
-          type: boolean        
+          $ref: '#/components/schemas/ReportingUrgency'
         reportingTimeInfo:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DurationSec'
       required:
@@ -461,6 +467,22 @@ components:
           type: boolean
           enum:
            - true
+        dlAveThroughput:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/BitRate'
+        ulAveThroughput:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/BitRate'
+        dlCongestion:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        ulCongestion:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        defaultQosFlowInd:
+          type: boolean
+          default: false
+
 
     TscManagementInfo:
       description: TSC Management Information
@@ -482,7 +504,7 @@ components:
         appId:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/ApplicationId'
         flowInfo:
-          $ref: 'TS29122_CommonData.yaml#/components/schemas/FlowInfo'
+          $ref: 'TS29512_Npcf_SMPolicyControl.yaml#/components/schemas/FlowInformation'
         volumeMeasurement:
           $ref: '#/components/schemas/VolumeMeasurement'
         throughputMeasurement:
@@ -565,6 +587,8 @@ components:
       properties:
         domainName:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Fqdn'
+        domainNameProtocol:
+          $ref: '#/components/schemas/DnProtocol'
       required:
         - domainName
 
@@ -588,11 +612,9 @@ components:
         - type: string
           enum:
           - ONE_TIME
-          - CONTINUOUS
           - PERIODIC
         - type: string
 
-# The need for the CONTINUOUS value is FFS
 
     MeasurementType:
       description: Measurement Type
@@ -613,5 +635,26 @@ components:
           - PER_SESSION
           - PER_FLOW
         - type: string
+
+    DnProtocol:
+      description: Domain Name Protocol
+      anyOf:
+        - type: string
+          enum:
+          - DNS_QNAME
+          - TLS_SNI
+          - TLS_SAN
+          - TLS_SCN
+        - type: string
+
+    ReportingUrgency:
+      description: Reporting Urgency
+      anyOf:
+        - type: string
+          enum:
+          - DELAY_TOLERANT
+          - NON_DELAY_TOLERANT
+        - type: string
+
 
 # SIMPLE TYPES

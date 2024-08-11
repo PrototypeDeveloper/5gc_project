@@ -1,24 +1,29 @@
 openapi: 3.0.0
+
 info:
   title: Nnwdaf_DataManagement
-  version: 1.1.0-alpha.3
+  version: 1.1.0
   description: |
     Nnwdaf_DataManagement API Service.  
-    © 2023, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
+    © 2024, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
     All rights reserved.
+
 externalDocs:
-  description: 3GPP TS 29.520 V18.2.0; 5G System; Network Data Analytics Services.
+  description: 3GPP TS 29.520 V18.64.0; 5G System; Network Data Analytics Services.
   url: 'https://www.3gpp.org/ftp/Specs/archive/29_series/29.520/'
+
 servers:
   - url: '{apiRoot}/nnwdaf-datamanagement/v1'
     variables:
       apiRoot:
         default: https://example.com
         description: apiRoot as defined in clause 4.4 of 3GPP TS 29.501
+
 security:
   - {}
   - oAuth2ClientCredentials:
     - nnwdaf-datamanagement
+
 paths:
   /subscriptions:
     post:
@@ -120,7 +125,7 @@ paths:
                   $ref: 'TS29571_CommonData.yaml#/components/responses/default'
               callbacks:
                 Fetch:
-                  '{request.body#/fetchInstruct/fetchUri}':
+                  '{$request.body#/fetchInstruct/fetchUri}':
                     post:
                       requestBody:
                         required: true
@@ -240,6 +245,13 @@ paths:
       responses:
         '204':
           description: No Content. Resource was succesfully deleted
+        '200':
+          description: >
+            Resource was succesfully deleted and including the stored unsent events in the response.
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/NwdafDataManagementNotif'
         '307':
           $ref: 'TS29571_CommonData.yaml#/components/responses/307'
         '308':
@@ -262,6 +274,7 @@ paths:
           $ref: 'TS29571_CommonData.yaml#/components/responses/503'
         default:
           $ref: 'TS29571_CommonData.yaml#/components/responses/default'
+
 components:
   securitySchemes:
     oAuth2ClientCredentials:
@@ -271,6 +284,7 @@ components:
           tokenUrl: '{nrfApiRoot}/oauth2/token'
           scopes:
             nnwdaf-datamanagement: Access to the Nnwdaf_DataManagement API
+
   schemas:
     NnwdafDataManagementSubsc:
       description: Represents an Individual NWDAF Data Management Subscription resource.
@@ -335,6 +349,7 @@ components:
       oneOf:
         - required: [anaSub]
         - required: [dataSub]
+
     NnwdafDataManagementNotif:
       description: Represents an Individual Notification.
       type: object
@@ -361,6 +376,8 @@ components:
           $ref: 'TS29576_Nmfaf_3caDataManagement.yaml#/components/schemas/FetchInstruction'
         notifTimestamp:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
+        pendNotifCause:
+          $ref: '#/components/schemas/PendingNotificationCause'
       required:  
         - notifCorrId
         - notifTimestamp
@@ -368,4 +385,23 @@ components:
         - required: [dataNotification]
         - required: [dataReports]
         - required: [fetchInstruct]
+
+#
+# ENUMERATIONS DATA TYPES
+#
+    PendingNotificationCause:
+      anyOf:
+      - type: string
+        enum:
+          - UE_OUT_OF_NF_SERVING_AREA
+          - OTHER
+      - type: string
+        description: >
+          This string provides forward-compatibility with future extensions to the enumeration but
+          is not used to encode content defined in the present version of this API.
+      description: |
+        Represents the Pending Notification Cause for the stored unsent data.  
+        Possible values are:
+          - UE_OUT_OF_NF_SERVING_AREA: The UE moved out of the NF serving area.
+          - OTHER: Other cause.
 

@@ -1,17 +1,17 @@
 openapi: 3.0.0
 
 info:
-  version: '1.5.0-alpha.3'
+  version: '1.5.0'
 
 
   title: 'Common Data Types'
   description: |
-    Common Data Types for Service Based Interfaces.  
-    © 2023, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
-    All rights reserved.  
+    Common Data Types for Service Based Interfaces.  
+    © 2024, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
+    All rights reserved.  
 
 externalDocs:
-  description: 3GPP TS 29.571 Common Data Types for Service Based Interfaces, version 18.2.0
+  description: 3GPP TS 29.571 Common Data Types for Service Based Interfaces, version 18.6.0
   url: 'https://www.3gpp.org/ftp/Specs/archive/29_series/29.571/'
 
 paths: {}
@@ -34,7 +34,8 @@ components:
       format: binary
       type: string
       nullable: true
-      description: "string with format 'binary' as defined in OpenAPI OpenAPI with 'nullable: true' property."
+      description: >
+        "string with format 'binary' as defined in OpenAPI OpenAPI with 'nullable: true' property."
 
     Bytes:
       format: byte
@@ -238,7 +239,7 @@ components:
         6.6 in 3GPP TS 29.500. The string shall contain a bitmask indicating supported features in 
         hexadecimal representation Each character in the string shall take a value of "0" to "9", 
         "a" to "f" or "A" to "F" and shall represent the support of 4 features as described in 
-        table 5.2.2-3. The most significant character representing the highest-numbered features
+        table 5.2.2-3. The most significant character representing the highest-numbered features
         shall  appear first in the string, and the character representing features 1 to 4
         shall appear last  in the string. The list of features and their numbering (starting with 1)
         are defined  separately for each API. If the string contains a lower number of characters
@@ -262,7 +263,9 @@ components:
       type: integer
       minimum: 0
       maximum: 65535
-      description: Integer where the allowed values correspond to the value range of an unsigned 16-bit integer.
+      description: >
+        Integer where the allowed values correspond to the value range of an
+        unsigned 16-bit integer.
 
     Uint16Rm:
       type: integer
@@ -336,7 +339,7 @@ components:
       description: |
         String with format "time-numoffset" optionally appended by "daylightSavingTime", where 
         - "time-numoffset" shall represent the time zone adjusted for daylight saving time and be
-           encoded as time-numoffset as defined in clause 5.6 of IETF RFC 3339; 
+           encoded as time-numoffset as defined in clause 5.6 of IETF RFC 3339; 
         - "daylightSavingTime" shall represent the adjustment that has been made and shall be
            encoded as "+1" or "+2" for a +1 or +2 hours adjustment. 
 
@@ -378,13 +381,22 @@ components:
         String representing the C-MSISDN as defined in clause 18.7 of 3GPP TS 23.003 with
         the OpenAPI 'nullable: true' property. 
 
+    MonthOfYear:
+      type: integer
+      minimum: 1
+      maximum: 12
+      description: >
+        integer between and including 1 and 12 denoting a month. 1 shall indicate January,
+        and the subsequent months shall be indicated with the next higher numbers.
+        12 shall indicate December.
+
     DayOfWeek:
       type: integer
       minimum: 1
       maximum: 7
       description: >
         integer between and including 1 and 7 denoting a weekday. 1 shall indicate Monday,
-        and the subsequent weekdays  shall be indicated with the next higher numbers.
+        and the subsequent weekdays shall be indicated with the next higher numbers.
         7 shall indicate Sunday.
 
     TimeOfDay:
@@ -528,6 +540,8 @@ components:
           items:
             type: string
           minItems: 1
+        noProfileMatchInfo:
+          $ref: 'TS29510_Nnrf_NFDiscovery.yaml#/components/schemas/NoProfileMatchInfo'
 
     Link:
       type: object
@@ -921,11 +935,11 @@ components:
     Dnn:
       type: string
       description: >
-            String representing a Data Network as defined in clause 9A of 3GPP TS 23.003; 
-            it shall contain either a DNN Network Identifier, or a full DNN with both the Network 
-            Identifier and Operator Identifier, as specified in 3GPP TS 23.003 clause 9.1.1 and 9.1.2.
-            It shall be coded as string in which the labels are separated by dots 
-            (e.g. "Label1.Label2.Label3").
+        String representing a Data Network as defined in clause 9A of 3GPP TS 23.003; 
+        it shall contain either a DNN Network Identifier, or a full DNN with both the Network 
+        Identifier and Operator Identifier, as specified in 3GPP TS 23.003 clause 9.1.1 and 9.1.2.
+        It shall be coded as string in which the labels are separated by dots 
+        (e.g. "Label1.Label2.Label3").
     DnnRm:
       type: string
       nullable: true
@@ -1017,7 +1031,8 @@ components:
       pattern: '^(imei-[0-9]{15}|imeisv-[0-9]{16}|mac((-[0-9a-fA-F]{2}){6})(-untrusted)?|eui((-[0-9a-fA-F]{2}){8})|.+)$'
       nullable: true
       description: >
-        This data type is defined in the same way as the 'Pei' data type but with the OpenAPI 'nullable: true' property.
+        This data type is defined in the same way as the 'Pei' data type but with
+        the OpenAPI 'nullable: true' property.
 
     Supi:
       type: string
@@ -1111,6 +1126,46 @@ components:
       pattern: '^(imsi-[0-9]{5,15}|nai-.+|gli-.+|gci-.+|suci-(0-[0-9]{3}-[0-9]{2,3}|[1-7]-.+)-[0-9]{1,4}-(0-0-.*|[a-fA-F1-9]-([1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])-[a-fA-F0-9]+)|.+)$'
       description: String identifying a SUPI or a SUCI.
 
+    Imsi:
+      description: String identifying an IMSI
+      type: string
+      pattern: '^[0-9]{5,15}$'
+
+    ApplicationlayerId:
+      type: string
+      description: >
+        String identifying an UE with application layer ID. The format of the application 
+        layer ID parameter is same as the Application layer ID defined in clause 11.3.4 of 
+        3GPP TS 24.554.
+
+    NsacSai:
+      type: string
+      description: >
+        String identifying the Network Slice Admission Control Service Area Identifier.
+
+
+#
+# ENUMERATED DATA TYPES
+#
+
+    GroupServiceId:
+      anyOf:
+        - type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+        - type: integer
+          description: >
+            This integer provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+      description: |
+        Possible values are:
+        - 1: Group specific NAS level congestion control
+        - 2: Group specific Monitoring of Number of UEs present in a geographical area
+        - 3: Group specific Group specific for 5G LAN Type service
+
 #
 # STRUCTURED DATA TYPES
 #
@@ -1188,7 +1243,9 @@ components:
     Mnc:
       type: string
       pattern: '^\d{2,3}$'
-      description: Mobile Network Code part of the PLMN, comprising 2 or 3 digits, as defined in clause 9.3.3.5 of 3GPP TS 38.413. 
+      description: >
+        Mobile Network Code part of the PLMN, comprising 2 or 3 digits, as defined in 
+        clause 9.3.3.5 of 3GPP TS 38.413. 
 
     MncRm:
       type: string
@@ -1369,7 +1426,7 @@ components:
         <MNC> encoding the Mobile Network Code part of the PLMN, comprising 3 digits. 
           If there are only 2 significant digits in the MNC, one "0" digit shall be inserted 
           at the left side to fill the 3 digits coding of MNC.  Pattern: '^[0-9]{3}$'
-        <NID> encoded as defined in clause 5.4.2 ("Nid" data type definition) 
+        <NID> encoded as defined in clause 5.4.2 ("Nid" data type definition) 
         <NFInstanceId> encoded as defined in clause 5.3.2 
         <ServiceName> encoded as defined in 3GPP TS 29.510 
         <Set ID> encoded as a string of characters consisting of alphabetic 
@@ -1450,13 +1507,14 @@ components:
       minimum: 0
       maximum: 16777215
       description: >
-        Relay Service Code to identify a connectivity service provided by the UE-to-Network relay.
+        Relay Service Code to identify a connectivity service provided by the UE-to-Network relay or
+        the UE-to-UE relay.
 
     5GPrukId:
       type: string
       description: >
-        A string carrying the CP-PRUK ID of the remote UE. The CP-PRUK ID is a string in NAI
-        format as specified in clause 28.7.11 of 3GPP TS 23.003.
+        A string carrying the CP-PRUK ID of the 5G ProSe Remote UE or the 5G ProSe End UE.
+        The CP-PRUK ID is a string in NAI format as specified in clause 28.7.11 of 3GPP TS 23.003.
       pattern: '^rid[0-9]{1,4}\.pid[0-9a-fA-F]+\@prose-cp\.5gc\.mnc[0-9]{2,3}\.mcc[0-9]{3}\.3gppnetwork\.org$'
 
     NsagId:
@@ -1475,6 +1533,12 @@ components:
       type: string
       description: >
         A string carrying the GEO Satellite ID.
+
+    OffloadIdentifier:
+      type: string
+      description: >
+        Offload identifier uniquely identifying a VPLMN offloading policy information instance
+      pattern: '^[0-9]{3}-[0-9]{2,3}-[A-Fa-f0-9]{8}(-v[0-9]{1,2}){0,1}$'
 
 #
 # ENUMERATED DATA TYPES
@@ -1519,6 +1583,19 @@ components:
             - NR_GEO
             - NR_OTHER_SAT
             - NR_REDCAP
+            - WB_E_UTRAN_LEO
+            - WB_E_UTRAN_MEO
+            - WB_E_UTRAN_GEO
+            - WB_E_UTRAN_OTHERSAT
+            - NB_IOT_LEO
+            - NB_IOT_MEO
+            - NB_IOT_GEO
+            - NB_IOT_OTHERSAT
+            - LTE_M_LEO
+            - LTE_M_MEO
+            - LTE_M_GEO
+            - LTE_M_OTHERSAT
+            - NR_EREDCAP
         - type: string
       description: Indicates the radio access used.
 
@@ -1604,7 +1681,8 @@ components:
             - SSC_MODE_3
         - type: string
       description: >
-        represents the service and session continuity mode It shall comply with the provisions defined in table 5.4.3.6-1. 
+        represents the service and session continuity mode It shall comply with the provisions
+        defined in table 5.4.3.6-1. 
 
     SscModeRm:
       anyOf:
@@ -1978,6 +2056,16 @@ components:
         - type: string
       description: Indicates the S-NSSAI availability.
 
+    TerminationIndication:
+      description: Indicates the termination of Network Slice Replacement.
+      anyOf:
+        - type: string
+          enum:
+            - NEW_UES_TERMINATION
+            - ALL_UES_TERMINATION
+        - type: string
+
+
 #
 # STRUCTURED DATA TYPES
 #
@@ -2235,6 +2323,8 @@ components:
             to be used.
         globalGnbId:
           $ref: '#/components/schemas/GlobalRanNodeId'
+        ntnTaiInfo:
+          $ref: '#/components/schemas/NtnTaiInfo'
       required:
         - tai
         - ncgi
@@ -2676,16 +2766,24 @@ components:
           type: boolean
           default: false
           description: >
-            Indicates the ATSSS-LL capability to support procedures related to Access Traffic
-            Steering, Switching, Splitting (see clauses 4.2.10, 5.32 of 3GPP TS 23.501).
+            Indicates the support of Access Traffic Steering, Switching and Splitting procedures 
+            using the ATSSS-LL steering functionality (see clauses 4.2.10, 5.32 of 3GPP TS 23.501).
             true: Supported
             false (default): Not Supported
         mptcp:
           type: boolean
           default: false
           description: >
-            Indicates the MPTCP capability to support procedures related to Access Traffic Steering,
-            Switching, Splitting (see clauses 4.2.10, 5.32 of 3GPP TS 23.501
+            Indicates the support of Access Traffic Steering, Switching and Splitting procedures
+            using the MPTCP steering functionality (see clauses 4.2.10, 5.32 of 3GPP TS 23.501
+            true: Supported
+            false (default): Not Supported
+        mpquic:
+          type: boolean
+          default: false
+          description: >
+            Indicates the support of Access Traffic Steering, Switching and Splitting procedures 
+            using the MPQUIC steering functionality (see clauses 4.2.10, 5.32 of 3GPP TS 23.501)
             true: Supported
             false (default): Not Supported
         rttWithoutPmf:
@@ -2693,7 +2791,7 @@ components:
           default: false
           description: >
             This IE is only used by the UPF to indicate whether the UPF supports RTT measurement
-            without PMF (see clauses 5.32.2, 6.3.3.3 of 3GPP TS 23.501
+            without PMF (see clauses 5.32.2, 6.3.3.3 of 3GPP TS 23.501
             true: Supported
             false (default): Not Supported
     PlmnIdNid:
@@ -2787,9 +2885,14 @@ components:
           $ref: '#/components/schemas/AreaCode'
         areaCodeC:
           $ref: '#/components/schemas/AreaCode'
+        combGciAndHfcNIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CombGciAndHfcNIds'
+          minItems: 1
       description: >
-        One and only one of the "globLineIds", "hfcNIds", "areaCodeB" and "areaCodeC" attributes
-        shall be included in a WirelineArea data structure
+        One and only one of the "globLineIds", "hfcNIds", "areaCodeB",d "areaCodeC" and 
+        combGciAndHfcNIds attributes        shall be included in a WirelineArea data structure
 
     WirelineServiceAreaRestriction:
       type: object
@@ -2898,7 +3001,7 @@ components:
         with the OpenAPI 'nullable: true' property.
 
     AcsInfo:
-      description: The ACS information for the 5G-RG is defined in BBF TR-069 [42] or in BBF TR-369
+      description: The ACS information for the 5G-RG is defined in BBF TR-069 [42] or in BBF TR-369
       type: object
       properties:
         acsUrl:
@@ -3012,7 +3115,7 @@ components:
           type: string
           pattern: '^[0-9A-F]{20}$'
           description: >
-            Refers to Calling Geodetic Location. See ITU-T Recommendation Q.763 (1999) clause
+            Refers to Calling Geodetic Location. See ITU-T Recommendation Q.763 (1999) clause
             3.88.2. Only the description of an ellipsoid point with uncertainty circle is allowed
             to be used.
 
@@ -3025,8 +3128,6 @@ components:
           - sai
         - required:
           - lai
-        - required:
-          - rai
       description: Exactly one of cgi, sai or lai shall be present.
       properties:
         locationNumber:
@@ -3034,12 +3135,12 @@ components:
           description: Location number within the PLMN. See 3GPP TS 23.003, clause 4.5.
         cgi:
           $ref: '#/components/schemas/CellGlobalId'
-        rai:
-          $ref: '#/components/schemas/RoutingAreaId'
         sai:
           $ref: '#/components/schemas/ServiceAreaId'
         lai:
           $ref: '#/components/schemas/LocationAreaId'
+        rai:
+          $ref: '#/components/schemas/RoutingAreaId'
         vlrNumber:
           type: string
           description: VLR number. See 3GPP TS 23.003 clause 5.1.
@@ -3388,6 +3489,9 @@ components:
           type: integer
           minimum: 0
           maximum: 100
+        uesWithPduSessionInd:
+          type: boolean
+          default: false
 
     SACEventStatus:
       description: >
@@ -3546,13 +3650,27 @@ components:
         durationBufferedNotif:
           $ref: '#/components/schemas/DurationSec'
 
+    CombGciAndHfcNIds:
+      type: object
+      properties:
+        globalCableId:
+          $ref: '#/components/schemas/Gci'
+        hfcNId:
+          $ref: '#/components/schemas/HfcNId'
+
 
     VplmnOffloadingInfo:
       description: VPLMN Specific Offloading Information 
       type: object
+      nullable: true
       properties:
+        offloadIdentifier:
+          $ref: '#/components/schemas/OffloadIdentifier'
         vplmnId:
           $ref: '#/components/schemas/PlmnId'
+        allowedTraffic:
+          type: boolean
+          default: true
         ipv4AddressRanges:
           type: array
           items:
@@ -3563,7 +3681,7 @@ components:
           items:
             $ref: '#/components/schemas/Ipv4AddrMask'
           minItems: 1
-        Ipv6AddressRanges:
+        ipv6AddressRanges:
           type: array
           items:
             $ref: '#/components/schemas/Ipv6AddressRange'
@@ -3583,8 +3701,6 @@ components:
           items:
             $ref: '#/components/schemas/FqdnPatternMatchingRule'
           minItems: 1
-        sessionAmbr:
-          $ref: '#/components/schemas/Ambr'
 
     PartiallyAllowedSnssai:
       description: >
@@ -3623,13 +3739,103 @@ components:
         Indicates whether the UE is authorized to use related services.
       type: object
       properties:
-        rgSlPosTargetAuth:
-          $ref: '#/components/schemas/UeAuth'
-        rgSlPosSlRefAuth:
+        rgSlPosPc5Auth:
           $ref: '#/components/schemas/UeAuth'
         rgSlPosLocAuth:
           $ref: '#/components/schemas/UeAuth'
+        rgSlPosClientAuth:
+          $ref: '#/components/schemas/UeAuth'
+        rgSlPosServerAuth:
+          $ref: '#/components/schemas/UeAuth'
 
+
+    NrA2xAuth:
+      description: Contains NR A2X services authorized information.
+      type: object
+      properties:
+        uavUeAuth:
+          $ref: '#/components/schemas/UeAuth'
+
+    LteA2xAuth:
+      description: Contains LTE A2X services authorized information.
+      type: object
+      properties:
+        uavUeAuth:
+          $ref: '#/components/schemas/UeAuth'
+
+    SliceUsageControlInfo:
+      description: The network slice usage control related information
+      type: object
+      required:
+        - sNssai
+      properties:
+        sNssai:
+          $ref: '#/components/schemas/Snssai'
+        deregInactTimer:
+          $ref: '#/components/schemas/DurationSec'
+        sessInactTimer:
+          $ref: '#/components/schemas/DurationSec'
+      anyOf:
+        - required: [ deregInactTimer ]
+        - required: [ sessInactTimer ]
+
+    SnssaiDnnItem:
+      description: Combination of S-NSSAIs and DNNs
+      type: object
+      properties:
+        snssaiList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtSnssai'
+          minItems: 1
+        dnnList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dnn'
+          minItems: 1
+      anyOf:
+        - required: [ snssaiList ]
+        - required: [ dnnList ]
+
+
+    NtnTaiInfo:
+      type: object
+      required:
+        - plmnId
+        - tacList
+      properties:
+        plmnId:
+          $ref: '#/components/schemas/PlmnIdNid'
+        tacList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tac'
+          minItems: 1
+        derivedTac:
+          $ref: '#/components/schemas/Tac'
+
+    MitigationInfo:
+      type: object
+      properties:
+        percValueNumUes:
+          type: integer
+          minimum: 0
+          maximum: 100
+        newUesInd:
+          type: boolean
+
+    VplmnDlAmbr:
+      description: an Authorized DL Session AMBR for Offloading for the VPLMN
+      type: object
+      nullable: true
+      properties:
+        vplmnId:
+          $ref: '#/components/schemas/PlmnId'
+        sessionDlAmbr:
+          $ref: '#/components/schemas/BitRate'
+      required:
+        - vplmnId
+        - sessionDlAmbr
 
 #
 # Data types describing alternative data types or combinations of data types
@@ -3645,7 +3851,7 @@ components:
         any value (if the wildcardSd attribute is present).
 
     SnssaiReplaceInfo:
-      description: Indicates the status of an S-NSSAI and optionally an alternative S-NSSAI.
+      description: Indicates the status of an S-NSSAI and an alternative S-NSSAI optionally.
       type: object
       properties:
         snssai:
@@ -3654,9 +3860,15 @@ components:
           $ref: '#/components/schemas/SnssaiStatus'
         altSnssai:
           $ref: '#/components/schemas/Snssai'
+        nsReplTerminInd:
+          $ref: '#/components/schemas/TerminationIndication'
+        plmnId:
+          $ref: '#/components/schemas/PlmnId'
+        mitigationInfo:
+          $ref: '#/components/schemas/MitigationInfo'
       required:
         - snssai
-        - status
+
 
 #
 # Data Types related to 5G QoS as defined in clause 5.5
@@ -3711,7 +3923,8 @@ components:
       pattern: '^\d+(\.\d+)? (bps|Kbps|Mbps|Gbps|Tbps)$'
       nullable: true
       description: >
-        This data type is defined in the same way as the 'BitRate' data type, but with the OpenAPI 'nullable: true' property.
+        This data type is defined in the same way as the 'BitRate' data type, but with the OpenAPI
+        'nullable: true' property.
 
     PacketRate:
       type: string
@@ -3834,7 +4047,9 @@ components:
       minimum: 1
       maximum: 4095
       default: 2000
-      description: Unsigned integer indicating Averaging Window (see clause 5.7.3.6 and 5.7.4 of 3GPP TS 23.501), expressed in milliseconds. 
+      description: >
+        Unsigned integer indicating Averaging Window (see clause 5.7.3.6 and 5.7.4 of
+        3GPP TS 23.501), expressed in milliseconds. 
 
     AverWindowRm:
       type: integer
@@ -3912,7 +4127,7 @@ components:
       type: integer
       minimum: 1
       description: >
-        Unsigned integer indicating Packet Delay Budget (see clauses 5.7.3.4 and 5.7.4 of 3GPP
+        Unsigned integer indicating Packet Delay Budget (see clauses 5.7.3.4 and 5.7.4 of 3GPP
         TS 23.501 [8])), expressed in 0.01 milliseconds.
 
     ExtPacketDelBudgetRm:
@@ -3930,35 +4145,6 @@ components:
       description: >
         A String which is transparently passed to the UPF to be applied for traffic to SFC.
 
-    PduSetDelayBudget:
-      type: integer
-      minimum: 1
-      description: >
-        Unsigned integer indicating PDU Set Delay Budget (PSDB) (see clause 5.7.7.2 of 3GPP
-        TS 23.501), expressed in 0.01 milliseconds.
-
-    PduSetDelayBudgetRm:
-      type: integer
-      minimum: 1
-      nullable: true
-      description: >
-        This data type is defined in the same way as the 'PduSetDelayBudget' data type, but with
-        the OpenAPI 'nullable: true' property.
-
-    PduSetErrRate:
-      type: string
-      pattern: '^([0-9]E-[0-9])$'
-      description: >
-        String representing PDU Set Error Rate (PSER) (see clause 5.7.7.3 3GPP TS 23.501 [8]) where
-        the scalar and the exponent k are each encoded as one decimal digit.
-
-    PduSetErrRateRm:
-      type: string
-      pattern: '^([0-9]E-[0-9])$'
-      nullable: true
-      description: >
-        This data type is defined in the same way as the 'PduSetErrRate' data type, but with the
-        OpenAPI 'nullable: true' property.
 
 #
 # ENUMERATED DATA TYPES
@@ -4075,7 +4261,7 @@ components:
         - $ref: '#/components/schemas/NullValue'
       description: >
         The enumeration AdditionalQosFlowInfo provides additional QoS flow information (see clause 
-        9.3.1.12 3GPP TS 38.413 [11]). It shall comply with the provisions defined in table
+        9.3.1.12 3GPP TS 38.413 [11]). It shall comply with the provisions defined in table
         5.5.3.12-1.
 
     PartitioningCriteria:
@@ -4107,6 +4293,78 @@ components:
       description: >
         This data type is defined in the same way as the ' PartitioningCriteria ' data type, but
         with the OpenAPI 'nullable: true' property.
+
+    PduSetHandlingInfo:
+      anyOf:
+        - type: string
+          enum:
+            - ALL_PDUS_NEEDED
+            - ALL_PDUS_NOT_NEEDED
+        - type: string
+          description: >
+            This string provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+      description: |
+        Possible values are:
+        - "ALL_PDUS_NEEDED": All PDUs of the PDU Set are needed
+        - "ALL_PDUS_NOT_NEEDED": All PDUs of the PDU Set are not needed
+
+    MediaTransportProto:
+      anyOf:
+        - type: string
+          enum:
+            - RTP
+            - SRTP
+        - type: string
+      description: >
+        The enumeration MediaTransportProto indicates the transport protocol used for a media flow.
+
+    MediaTransportProtoRm:
+      anyOf:
+        - $ref: '#/components/schemas/MediaTransportProto'
+        - $ref: '#/components/schemas/NullValue'
+      description: >
+        This data type is defined in the same way as the 'MediaTransportProto' data type, 
+        but with the OpenAPI 'nullable: true' property.
+
+    RtpHeaderExtType:
+      anyOf:
+        - type: string
+          enum:
+            - PDU_SET_MARKING
+        - type: string
+      description: >
+        The enumeration indicates the type of Rtp Header Extension type 
+
+    RtpHeaderExtTypeRm:
+      anyOf:
+        - $ref: '#/components/schemas/RtpHeaderExtType'
+        - $ref: '#/components/schemas/NullValue'
+      description: >
+        This data type is defined in the same way as the 'RtpHeaderExtType' data type, 
+        but with the OpenAPI 'nullable: true' property.
+
+
+    RtpPayloadFormat:
+      anyOf:
+        - type: string
+          enum:
+            - H264
+            - H265
+        - type: string
+      description: >
+        The enumeration RtpPayloadFormat indicates the RTP Payload format 
+
+
+    RtpPayloadFormatRm:
+      anyOf:
+        - $ref: '#/components/schemas/RtpPayloadFormat'
+        - $ref: '#/components/schemas/NullValue'
+      description: >
+        This data type is defined in the same way as the 'RtpPayloadFormat' data type, but with the
+        OpenAPI 'nullable: true' property.
+
 #
 #
 # STRUCTURED DATA TYPES
@@ -4231,19 +4489,132 @@ components:
       type: object
       properties:
         pduSetDelayBudget:
-          $ref: '#/components/schemas/PduSetDelayBudget'
+          $ref: '#/components/schemas/ExtPacketDelBudget'
         pduSetErrRate:
-          $ref: '#/components/schemas/PduSetErrRate'
+          $ref: '#/components/schemas/PacketErrRate'
         pduSetHandlingInfo:
-          type: string
-# The data type of "pduSetHandlingInfo" attribute is FFS
-
+         $ref: '#/components/schemas/PduSetHandlingInfo'
+      anyOf:
+        - required: [ pduSetDelayBudget, pduSetErrRate ]
+        - required: [ pduSetHandlingInfo ]
+# 
 
     PduSetQosParaRm:
-      description: "PduSetQosPara with nullable: true"
+      description: "PduSetQosPara contains removable attributes"
+      type: object
+      nullable: true
+      properties:
+        pduSetDelayBudget:
+          $ref: '#/components/schemas/ExtPacketDelBudgetRm'
+        pduSetErrRate:
+          $ref: '#/components/schemas/PacketErrRateRm'
+        pduSetHandlingInfo:
+         $ref: '#/components/schemas/PduSetHandlingInfoRm'
+
+
+    ProtocolDescription:
+      description: ProtocolDescription contains information to derive PDU set information.
+      type: object
+      properties:
+        transportProto:
+          $ref: '#/components/schemas/MediaTransportProto'
+        rtpHeaderExtInfo:
+          $ref: '#/components/schemas/RtpHeaderExtInfo'
+        rtpPayloadInfoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/RtpPayloadInfo'
+          minItems: 1
+
+    ProtocolDescriptionRm:
+      description: Describes the modifications to the ProtocolDescription data type.
+      type: object
+      nullable: true
+      properties:
+        transportProto:
+          $ref: '#/components/schemas/MediaTransportProtoRm'
+        rtpHeaderExtInfo:
+          $ref: '#/components/schemas/RtpHeaderExtInfoRm'
+        rtpPayloadInfoList:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/RtpPayloadInfo'
+          minItems: 1
+
+
+    RtpHeaderExtInfo:
+      description: RTP Header Extension information
+      type: object
+      properties:
+        rtpHeaderExtType:
+          $ref: '#/components/schemas/RtpHeaderExtType'
+        rtpHeaderExtId:
+          type: integer
+          minimum: 1
+          maximum: 255
+        longFormat:
+          type: boolean
+        pduSetSizeActive:
+          type: boolean
+
+    RtpHeaderExtInfoRm:
+      description: Describes the modifications to RtpHeaderExtInfo data type
+      type: object
+      nullable: true
+      properties:
+        rtpHeaderExtType:
+          $ref: '#/components/schemas/RtpHeaderExtTypeRm'
+        rtpHeaderExtId:
+          type: integer
+          nullable: true
+          minimum: 1
+          maximum: 255
+        longFormat:
+          type: boolean
+          nullable: true
+        pduSetSizeActive:
+          type: boolean
+          nullable: true
+
+    RtpPayloadInfo:
+      description: RtpPayloadInfo contains Rtp payload type and format.
+      type: object
+      properties:
+        rtpPayloadTypeList:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 127
+          minItems: 1
+        rtpPayloadFormat:
+          $ref: '#/components/schemas/RtpPayloadFormat'
+
+    RtpPayloadInfoRm:
+      nullable: true
+      description: Describes the modifications to the RtpPayloadInfo data type.
+      type: object
+      properties:
+        rtpPayloadTypeList:
+          type: array
+          nullable: true
+          items:
+            type: integer
+            minimum: 1
+            maximum: 127
+          minItems: 1
+        rtpPayloadFormat:
+          $ref: '#/components/schemas/RtpPayloadFormatRm'
+
+    PduSetHandlingInfoRm:
       anyOf:
-        - $ref: '#/components/schemas/PduSetQosPara'
+        - $ref: '#/components/schemas/PduSetHandlingInfo'
         - $ref: '#/components/schemas/NullValue'
+      description: >
+        This enumeration is defined in the same way as the 'PduSetHandlingInfo' enumeration,
+        but with the OpenAPI 'nullable: true' property.
+
 
 #
 # Data Types related to 5G Trace as defined in clause 5.6
@@ -4252,6 +4623,7 @@ components:
 #
 # SIMPLE DATA TYPES
 #
+
     PhysCellId:
       type: integer
       minimum: 0
@@ -4259,6 +4631,7 @@ components:
       description: >
         Integer value identifying the physical cell identity (PCI), as definition of "PhysCellId" IE 
         in clause 6.3.2 of 3GPP TS 38.331.
+
     ArfcnValueNR:
       type: integer
       minimum: 0
@@ -4267,10 +4640,28 @@ components:
         Integer value indicating the ARFCN applicable for a downlink, uplink or bi-directional (TDD)
         NR global frequency raster,
         as definition of "ARFCN-ValueNR" IE in clause 6.3.2 of 3GPP TS 38.331.
+
+    QoeReference:
+      description: >
+        String containing MCC (3 digits), MNC (2 or 3 digits) 
+        and QMC ID (3 octets, encoded as 6 hexadecimal digits).
+      type: string
+      pattern: '^[0-9]{3}-[0-9]{2,3}-[A-Fa-f0-9]{6}$'
+
+    MdtAlignmentInfo:
+      description: |
+        String containing:
+        - Trace Reference: MCC (3 digits), MNC (2 or 3 digits), 
+          Trace ID (3 octets, encoded as 6 hexadecimal digits)
+        - Trace Recording Session Reference (2 octets, encoded as 4 hexadecimal digits)
+      format: string
+      pattern: '^[0-9]{3}-[0-9]{2,3}-[A-Fa-f0-9]{6}-[A-Fa-f0-9]{4}$'
+
 #
 #
 # Enumerations
 #
+
     TraceDepth:
       anyOf:
         - type: string
@@ -4283,9 +4674,10 @@ components:
             - MAXIMUM_WO_VENDOR_EXTENSION
         - type: string
       description: >
-        The enumeration TraceDepth defines how detailed information should be recorded in the trace.
-        See 3GPP TS 32.422 for further description of the values. It shall comply with the
-        provisions defined in table 5.6.3.1-1
+        The enumeration TraceDepth defines how detailed information should be recorded
+        in the trace. See 3GPP TS 32.422 for further description of the values.
+        It shall comply with the provisions defined in table 5.6.3.1-1
+
     TraceDepthRm:
       anyOf:
         - $ref: '#/components/schemas/TraceDepth'
@@ -4302,9 +4694,11 @@ components:
             - LOGGED_MDT_ONLY
             - TRACE_ONLY
             - IMMEDIATE_MDT_AND_TRACE
-            - RLF_REPORTS_ONLY
-            - RCEF_REPORTS_ONLY
             - LOGGED_MBSFN_MDT
+            - 5GC_UE_LEVEL_MEASUREMENTS_ONLY
+            - TRACE_AND_5GC_UE_LEVEL_MEASUREMENTS_ONLY
+            - IMMEDIATE_MDT_AND_5GC_UE_LEVEL_MEASUREMENTS
+            - TRACE_IMMEDIATE_MDT_AND_5GC_UE_LEVEL_MEASUREMENTS
         - type: string
       description: >
         The enumeration JobType defines Job Type in the trace. See 3GPP TS 32.422 for further 
@@ -4365,8 +4759,8 @@ components:
         - type: string
       description: >
         The enumeration MeasurementNrForMdt defines Measurements used for MDT in NR in the trace.
-        See 3GPP TS 32.422 for further description of the values. It shall comply with the provisions
-        defined in table 5.6.3.6-1.
+        See 3GPP TS 32.422 for further description of the values. It shall comply with the
+        provisions defined in table 5.6.3.6-1.
 
     SensorMeasurement:
       anyOf:
@@ -4377,9 +4771,9 @@ components:
             - UE_ORIENTATION
         - type: string
       description: >
-        The enumeration SensorMeasurement defines sensor measurement type for MDT in the trace. See 3GPP
-        TS 32.422 for further description of the values. It shall comply with the provisions defined
-        in table 5.6.3.7-1.
+        The enumeration SensorMeasurement defines sensor measurement type for MDT in the trace.
+        See 3GPP TS 32.422 for further description of the values. It shall comply with the
+        provisions defined in table 5.6.3.7-1.
 
     ReportingTrigger:
       anyOf:
@@ -4508,8 +4902,8 @@ components:
         - type: string
       description: >
         The enumeration CollectionPeriodRmmLteMdt defines Collection period for RRM measurements
-        LTE for MDT in the trace. See 3GPP TS 32.422 for further description of the values. It shall
-        comply with the provisions defined in table 5.6.3.15-1.
+        LTE for MDT in the trace. See 3GPP TS 32.422 for further description of the values.
+        It shall comply with the provisions defined in table 5.6.3.15-1.
 
     MeasurementPeriodLteMdt:
       anyOf:
@@ -4524,9 +4918,9 @@ components:
             - 60000
         - type: string
       description: >
-        The enumeration MeasurementPeriodLteMdt defines Measurement period LTE for MDT in the trace. 
-        See 3GPP TS 32.422 for further description of the values. It shall comply with the
-        provisions defined in table 5.6.3.16-1.
+        The enumeration MeasurementPeriodLteMdt defines Measurement period LTE for MDT in the
+        trace.  See 3GPP TS 32.422 for further description of the values. It shall comply
+        with the provisions defined in table 5.6.3.16-1.
 
     ReportIntervalNrMdt:
       anyOf:
@@ -4585,8 +4979,8 @@ components:
             - 60000
         - type: string
       description: >
-        The enumeration CollectionPeriodRmmNrMdt defines Collection period for RRM measurements NR for MDT in the trace.
-        See 3GPP TS 32.422 for further description of the values. It shall comply with the provisions defined in table 5.6.3.19-1
+        The enumeration CollectionPeriodRmmNrMdt defines Collection period for RRM measurements NR
+        for MDT in the trace. See 3GPP TS 32.422 for further description of the values. It shall comply with the provisions defined in table 5.6.3.19-1
 
     LoggingDurationNrMdt:
       anyOf:
@@ -4603,9 +4997,56 @@ components:
         The enumeration LoggingDurationMdt defines Logging Duration in NR for MDT in the trace. See
         3GPP TS 32.422 for further description of the values. It shall comply with the provisions
         defined in table 5.6.3.20-1.
+
+    QoeServiceType:
+      description: >
+        The enumeration QoeServiceType indicates the kind of service that shall be recorded for
+        QMC. It shall comply with the provisions defined in TS 29.571, table 5.6.3.21-1.
+      anyOf:
+        - type: string
+          enum:
+            - DASH
+            - MTSI
+            - VR
+        - type: string
+          description: >
+            This string provides forward-compatibility with future extensions to the enumeration
+            but is not used to encode content defined in the present version of this API. 
+
+    AvailableRanVisibleQoeMetric:
+      description: >
+        The enumeration AvailableRanVisibleQoeMetric indicates different available
+        RAN-visible QoE metrics to the gNB. It shall comply with the provisions defined
+        in TS 29.571, table 5.6.3.22-1.
+      anyOf:
+        - type: string
+          enum:
+            - APPLICATION_LAYER_BUFFER_LEVEL_LIST
+            - PLAYOUT_DELAY_FOR_MEDIA_STARTUP
+        - type: string
+          description: >
+            This string provides forward-compatibility with future extensions to the enumeration
+            but is not used to encode content defined in the present version of this API. 
+
+    MeasurementType:
+      anyOf:
+        - type: string
+          enum:
+            - GTP_DELAYDLPSAUPFUEMEAN_SNSSAI_QFI
+            - GTP_DELAYULPSAUPFUEMEANEXCD1_SNSSAI_QFI
+            - GTP_DELAYDLPSAUPFUEMEANINCD1_SNSSAI_QFI
+            - GTP_DELAYULPSAUPFNGRANMEAN_SNSSAI_QFI
+            - GTP_DELAYDLPSAUPFNGRANMEAN_SNSSAI_QFI
+        - type: string
+      description: >
+        The enumeration MeasurementType defines Measurement Type in the UE level measurements trace.
+
+
+
 #
 # STRUCTURED DATA TYPES
 #
+
     TraceData:
       description: contains Trace control and configuration parameters.
       type: object
@@ -4615,13 +5056,14 @@ components:
           type: string
           pattern: '^[0-9]{3}[0-9]{2,3}-[A-Fa-f0-9]{6}$'
           description: >
-            Trace Reference (see 3GPP TS 32.422).It shall be encoded as the concatenation of MCC,
-            MNC and Trace ID as follows: 'MCC'<MNC'-'Trace ID'The Trace ID shall be encoded as a 3 octet string in hexadecimal
-            representation. Each character in the Trace ID string shall take a value of "0" to "9",
-            "a" to "f" or "A" to "F" and shall represent 4 bits.
-            The most significant character representing the 4 most significant bits of the Trace ID
-            shall appear first  in the string, and the character representing the 4 least significant
-            bit of the Trace ID shall appear last in the string.
+            Trace Reference (see 3GPP TS 32.422).It shall be encoded as the concatenation
+            of MCC, MNC and Trace ID as follows: <MCC><MNC>-<Trace ID>
+            The Trace ID shall be encoded as a 3 octet string in hexadecimal
+            representation. Each character in the Trace ID string shall
+            take a value of "0" to "9", "a" to "f" or "A" to "F" and shall represent 4 bits.
+            The most significant character representing the 4 most significant bits of the
+            Trace ID shall appear first in the string, and the character representing the
+            4 least significant bit of the Trace ID shall appear last in the string.
 
         traceDepth:
           $ref: '#/components/schemas/TraceDepth'
@@ -4629,33 +5071,35 @@ components:
           type: string
           pattern: '^[A-Fa-f0-9]+$'
           description: >
-            List of NE Types (see 3GPP TS 32.422).It shall be encoded as an octet string in
-            hexadecimal representation.
-            Each character in the string shall take a value of "0" to "9", "a" to "f" or "A" to "F"
-            and shall represent 4 bits.
-            The most significant character representing the 4 most significant bits shall appear
-            first in the string, and the character representing the
-            4 least significant bit shall appear last in the string.Octets shall be coded
+            List of NE Types (see 3GPP TS 32.422). It shall be encoded as an octet string
+            in hexadecimal representation. Each character in the string shall take a value
+            of "0" to "9", "a" to "f" or "A" to "F" and shall represent 4 bits.
+            The most significant character representing the 4 most significant bits shall
+            appear first in the string, and the character representing the 4 least
+            significant bit shall appear last in the string. Octets shall be coded
             according to 3GPP TS 32.422.
         eventList:
           type: string
           pattern: '^[A-Fa-f0-9]+$'
           description: >
-            Triggering events (see 3GPP TS 32.422).It shall be encoded as an octet string in
+            Triggering events (see 3GPP TS 32.422). It shall be encoded as an octet string in
             hexadecimal representation. Each character in the string shall take a value of "0"
             to "9", "a" to "f" or "A" to "F" and shall represent 4 bits.
-            The most significant character representing the 4 most significant bits shall appear
-            first in the string, and the character representing the 4 least significant bit shall
-            appear last in the string. Octets shall be coded according to 3GPP TS 32.422.
+            The most significant character representing the 4 most significant bits shall
+            appear first in the string, and the character representing the 4 least
+            significant bit shall appear last in the string. Octets shall be coded
+            according to 3GPP TS 32.422.
         collectionEntityIpv4Addr:
           $ref: '#/components/schemas/Ipv4Addr'
         collectionEntityIpv6Addr:
           $ref: '#/components/schemas/Ipv6Addr'
+        traceReportingConsumerUri:
+          $ref: '#/components/schemas/Uri'
         interfaceList:
           type: string
           pattern: '^[A-Fa-f0-9]+$'
           description: >
-            List of Interfaces (see 3GPP TS 32.422).It shall be encoded as an octet string in
+            List of Interfaces (see 3GPP TS 32.422). It shall be encoded as an octet string in
             hexadecimal representation.
             Each character in the string shall take a value of "0" to "9", "a" to "f" or "A" to "F"
             and shall represent 4 bits. The most significant character representing the 4 most
@@ -4664,6 +5108,8 @@ components:
             according to 3GPP TS 32.422. If this attribute is not present, all the interfaces
             applicable to the list of NE types indicated in the neTypeList attribute should
             be traced.
+        jobType:
+          $ref: '#/components/schemas/JobType'
       required:
         - traceRef
         - traceDepth
@@ -4707,6 +5153,20 @@ components:
           $ref: '#/components/schemas/ReportIntervalNrMdt'
         reportAmount:
           $ref: '#/components/schemas/ReportAmountMdt'
+        reportAmountPerMeasurementLte:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ReportAmountMdt'
+          minProperties: 1
+          description: >
+            A map (list of key-value pairs) where MeasurementLteForMdt serves as key;
+        reportAmountPerMeasurementNr:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ReportAmountMdt'
+          minProperties: 1
+          description: >
+            A map (list of key-value pairs) where MeasurementNrForMdt serves as key;
         eventThresholdRsrp:
           type: integer
           minimum: 0
@@ -4725,8 +5185,9 @@ components:
           description: >
             This IE shall be present if the report trigger parameter is configured for A2 event
             reporting or A2 event triggered periodic reporting and the job type parameter is
-            configured for Immediate MDT or combined Immediate MDT
-            and Trace in NR. When present,
+            configured for Immediate MDT, combined Immediate MDT
+            and Trace, Immediate MDT and 5GC UE level measurements or Trace, Immediate MDT and 5GC
+            UE level measurements in NR. When present,
             this IE shall indicate the Event Threshold for RSRP, and the value shall be
             between 0-127.
         eventThresholdRsrq:
@@ -4746,7 +5207,9 @@ components:
           description: >
             This IE shall be present if the report trigger parameter is configured for A2 event
             reporting or A2 event triggered periodic reporting and the job type parameter is
-            configured for Immediate MDT or combined Immediate MDT and Trace in NR.When present,
+            configured for Immediate MDT, combined Immediate MDT and Trace, Immediate MDT and 5GC
+            UE level measurements or Trace, Immediate MDT and 5GC UE level measurements in NR.
+            When present,
             this IE shall indicate the Event Threshold for RSRQ, and the value shall be
             between 0-127.
         eventList:
@@ -4820,6 +5283,39 @@ components:
           minProperties: 1
           description: >
             A map (list of key-value pairs) where PlmnId converted to a string serves as key
+        cagInfoPerPlmn:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/CagInfo'
+          minProperties: 1
+          description: >
+            A map (list of key-value pairs) where PlmnId converted to a string serves as key
+        nidInfoPerPlmn:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NidInfo'
+          minProperties: 1
+          description: >
+            A map (list of key-value pairs) where PlmnId converted to a string serves as key
+        cellIdNidInfoPerPlmn:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/CellIdNidInfo'
+          minProperties: 1
+          description: >
+            A map (list of key-value pairs) where PlmnId converted to a string serves as key
+        tacNidInfoPerPlmn:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/TacNidInfo'
+          minProperties: 1
+          description: >
+            A map (list of key-value pairs) where PlmnId converted to a string serves as key
+        cagList:
+          type: array
+          items:
+            $ref: '#/components/schemas/CagId'
+          minItems: 1
 
     TacInfo:
       description: contains tracking area information (tracking area codes).
@@ -4832,6 +5328,78 @@ components:
           items:
             $ref: '#/components/schemas/Tac'
           minItems: 1
+
+    CagInfo:
+      description: contains CAG IDs.
+      type: object
+      required:
+        - cagList
+      properties:
+        cagList:
+          type: array
+          items:
+            $ref: '#/components/schemas/CagId'
+          minItems: 1
+
+    NidInfo:
+      description: contains NIDs.
+      type: object
+      required:
+        - nidList
+      properties:
+        nidList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Nid'
+          minItems: 1
+
+    CellIdNidInfo:
+      description: contains a list of the NR Cell Identities in SNPN.
+      type: object
+      required:
+        - cellIdNidList
+      properties:
+        cellIdNidList:
+          type: array
+          items:
+            $ref: '#/components/schemas/CellIdNid'
+          minItems: 1
+
+    CellIdNid:
+      description: contains a NR Cell Identity and Network Identity.
+      type: object
+      required:
+        - cellId
+        - nid
+      properties:
+        cellId:
+          $ref: '#/components/schemas/NrCellId'
+        nid:
+          $ref: '#/components/schemas/Nid'
+
+    TacNidInfo:
+      description: contains a list of the tracking area codes in SNPN.
+      type: object
+      required:
+        - tacNidList
+      properties:
+        tacNidList:
+          type: array
+          items:
+            $ref: '#/components/schemas/TacNid'
+          minItems: 1
+
+    TacNid:
+      description: contains a tracking area code and Network Identity.
+      type: object
+      required:
+        - tac
+        - nid
+      properties:
+        tac:
+          $ref: '#/components/schemas/Tac'
+        nid:
+          $ref: '#/components/schemas/Nid'
 
     MbsfnArea:
       description: Contains an MBSFN area information.
@@ -4865,6 +5433,100 @@ components:
           description: >
             When present, this IE shall contain a list of the physical cell identities where the
             UE is requested to perform measurement logging for the indicated frequency.
+
+
+    QmcConfigInfo:
+      description: >
+        It contains the configuration information for signaling-based activation of the 
+        Quality of Experience (QoE) Measurements Collection (QMC) functionality. 
+      type: object
+      required:
+        - qoeReference
+      properties:
+        qoeReference:
+          $ref: '#/components/schemas/QoeReference'
+        serviceType:
+          $ref: '#/components/schemas/QoeServiceType'
+        sliceScope:
+          type: array
+          items:
+            $ref: '#/components/schemas/Snssai'
+          minItems: 1
+        areaScope:
+          $ref: '#/components/schemas/QmcAreaScope'
+        qoeCollectionEntityAddress:
+          $ref: '#/components/schemas/IpAddr'
+        qoeTarget:
+          $ref: '#/components/schemas/QoeTarget'
+        mdtAlignmentInfo:
+          $ref: '#/components/schemas/MdtAlignmentInfo'
+        availableRanVisibleQoeMetrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableRanVisibleQoeMetric'
+          minItems: 1
+        containerForAppLayerMeasConfig:
+          $ref: '#/components/schemas/Bytes'
+        mbsCommunicationServiceType:
+          $ref: '#/components/schemas/MbsServiceType'
+
+    QmcAreaScope:
+      description: >
+        This IE contains the area in Cells or Tracking Areas where the QMC data collection
+        shall take place.
+      type: object
+      properties:
+        nrCellIdList:
+          type: array
+          items:
+            $ref: '#/components/schemas/NrCellId'
+          minItems: 1
+        tacList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tac'
+          minItems: 1
+        taiList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tai'
+          minItems: 1
+        plmnList:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlmnId'
+          minItems: 1
+
+    QoeTarget:
+      description: >
+        This parameter specifies the target object (individual UE) for the QMC in case of
+        signalling based QMC. It shall be able to carry an IMSI or a SUPI.
+      type: object
+      properties:
+        supi:
+          $ref: '#/components/schemas/Supi'
+        imsi:
+          $ref: '#/components/schemas/Imsi'
+
+
+    UeLevelMeasurementsConfiguration:
+      description: 5GC UE Level Measurements configuration.
+      type: object
+      required:
+        - jobType
+        - ueLevelMeasurementsList
+      properties:
+        jobType:
+          $ref: '#/components/schemas/JobType'
+        ueLevelMeasurementsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeasurementType'
+          minItems: 1
+        granularityPeriod:
+          $ref: '#/components/schemas/DurationSec'
+
+
 
 
 # Data Types related to 5G ODB as defined in clause 5.7
@@ -4930,10 +5592,15 @@ components:
         Integer where the allowed values correspond to the value range of an unsigned 32-bit
         integer.
 
+    SmfChargingId:
+      description: String based Charging ID
+      type: string
+      pattern: '^(0|([1-9]{1}[0-9]{0,9}))\.smf-([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$'
 
     ApplicationChargingId:
       type: string
-      description: Application provided charging identifier allowing correlation of charging information.
+      description: >
+        Application provided charging identifier allowing correlation of charging information.
 
     RatingGroup:
       $ref: '#/components/schemas/Uint32'
@@ -5036,6 +5703,9 @@ components:
     AreaSessionId:
       $ref: '#/components/schemas/Uint16'
 
+    AreaSessionPolicyId:
+      $ref: '#/components/schemas/Uint16'
+
     MbsFsaId:
       description: MBS Frequency Selection Area Identifier
       type: string
@@ -5082,6 +5752,18 @@ components:
         enum:
           - STARTED
           - TERMINATED
+      - type: string
+
+    NrRedCapUeInfo:
+      description: >
+        Indicates whether the broadcast MBS session is intended only for NR RedCap UEs, 
+        both for NR RedCap UEs and non-RedCap UEs, or only for non-RedCap UEs. 
+      anyOf:
+      - type: string
+        enum:
+          - NR_REDCAP_UE_ONLY
+          - BOTH_NR_REDCAP_UE_AND_NON_REDCAP_UE
+          - NON_REDCAP_UE_ONLY
       - type: string
 
 #
@@ -5214,6 +5896,14 @@ components:
           allOf:
             - $ref: '#/components/schemas/ExternalMbsServiceArea'
           writeOnly: true
+        redMbsServArea: 
+          allOf:
+            - $ref: '#/components/schemas/MbsServiceArea'
+          readOnly: true
+        extRedMbsServArea: 
+          allOf:
+            - $ref: '#/components/schemas/ExternalMbsServiceArea'
+          readOnly: true
         dnn:
           allOf:
             - $ref: '#/components/schemas/Dnn'
@@ -5247,11 +5937,15 @@ components:
           minItems: 1
         associatedSessionId:
           $ref: '#/components/schemas/AssociatedSessionId'
+        nrRedCapUeInfo:
+          $ref: '#/components/schemas/NrRedCapUeInfo'
       required:
         - serviceType
       anyOf:
         - required: [ mbsSessionId ]
         - required: [ tmgiAllocReq ]
+      not:
+        required: [redMbsServArea, extRedMbsServArea]
 
 
     MbsSessionSubscription:
@@ -5341,10 +6035,13 @@ components:
 
 
     MbsSecurityContext:
+      description: MBS security context consisting of MSK/MTK(s) and associated IDs
       type: object
       properties:
         keyList:
-          description: A map (list of key-value pairs) where a (unique) valid JSON string serves as key of MbsSecurityContext
+          description: >
+            A map (list of key-value pairs) where a (unique) valid JSON string serves
+            as key of MbsSecurityContext
           type: object
           additionalProperties:
             $ref: '#/components/schemas/MbsKeyInfo'
@@ -5402,6 +6099,9 @@ components:
       type: object
       properties:
         mbsMediaComps:
+          description: >
+            The key of the map is the "mbsMedCompNum" attribute of the corresponding MbsMediaCompRm
+            data structure provided as a map entry.
           type: object
           additionalProperties:
             $ref: '#/components/schemas/MbsMediaCompRm'
@@ -5485,6 +6185,371 @@ components:
         - $ref: '#/components/schemas/Ssm'
         - type: string
 
+
+
+# Data Types related to Time Synchronization as defined in clause 5.10
+#
+
+#
+# SIMPLE DATA TYPES
+#
+#
+
+
+#
+# Enumerations
+#
+#
+
+    SynchronizationState:
+      description: Indicates the Synchronization State.
+      anyOf:
+        - type: string
+          enum:
+          - LOCKED
+          - HOLDOVER
+          - FREERUN
+        - type: string
+          description: >
+            This string provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+
+    TimeSource:
+      description: Indicates the Time Source.
+      anyOf:
+        - type: string
+          enum:
+          - SYNC_E
+          - PTP
+          - GNSS
+          - ATOMIC_CLOCK
+          - TERRESTRIAL_RADIO
+          - SERIAL_TIME_CODE
+          - NTP
+          - HAND_SET
+          - OTHER
+        - type: string
+          description: >
+            This string provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+
+    ClockQualityDetailLevel:
+      description: Indicates the Clock Quality Detail Level.
+      anyOf:
+        - type: string
+          enum:
+          - CLOCK_QUALITY_METRICS
+          - ACCEPT_INDICATION
+        - type: string
+          description: >
+            This string provides forward-compatibility with future
+            extensions to the enumeration but is not used to encode
+            content defined in the present version of this API.
+
+    ClockQualityDetailLevelRm:
+      description: >
+        This data type is defined in the same way as the 'ClockQualityDetailLevel' data type,
+        but with the OpenAPI 'nullable: true' property.
+      anyOf:
+        - $ref: '#/components/schemas/ClockQualityDetailLevel'
+        - $ref: '#/components/schemas/NullValue'
+         
+
+#
+# STRUCTURED DATA TYPES
+#
+
+    ClockQualityAcceptanceCriterion:
+      description: Contains a Clock Quality Acceptance Criterion.
+      type: object
+      properties:
+        synchronizationState:
+          type: array
+          items:
+            $ref: '#/components/schemas/SynchronizationState'
+          minItems: 1
+        clockQuality:
+          $ref: '#/components/schemas/ClockQuality'
+        parentTimeSource:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSource'
+          minItems: 1
+
+    ClockQualityAcceptanceCriterionRm:
+      description: Contains a Clock Quality Acceptance Criterion.
+      type: object
+      nullable: true
+      properties:
+        synchronizationState:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/SynchronizationState'
+          minItems: 1
+        clockQuality:
+          $ref: '#/components/schemas/ClockQualityRm'
+        parentTimeSource:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/TimeSource'
+          minItems: 1
+
+    ClockQuality:
+      description: Contains Clock Quality.
+      type: object
+      properties:
+        traceabilityToGnss:
+          type: boolean
+        traceabilityToUtc:
+          type: boolean
+        frequencyStability:
+          $ref: '#/components/schemas/Uint16'
+        clockAccuracyIndex:
+          type: string
+          pattern: '^[A-Fa-f0-9]{2}$'
+        clockAccuracyValue:
+          type: integer
+          minimum: 1
+          maximum: 40000000
+
+    ClockQualityRm:
+      description: "ClockQuality with 'nullable: true' property"
+      type: object
+      nullable: true
+      properties:
+        traceabilityToGnss:
+          type: boolean
+        traceabilityToUtc:
+          type: boolean
+        frequencyStability:
+          $ref: '#/components/schemas/Uint16Rm'
+        clockAccuracyIndex:
+          type: string
+          nullable: true
+          pattern: '^[A-Fa-f0-9]{2}$'
+        clockAccuracyValue:
+          type: integer
+          nullable: true
+          minimum: 1
+          maximum: 40000000
+
+
+
+
+# Data Types related to IMS SBA as defined in clause 5.11
+#
+
+#
+# SIMPLE DATA TYPES
+#
+#
+
+    SessionId:
+      description: IMS Session Identifier
+      type: string
+
+    MediaId:
+      description: IMS Media Flow Identifier
+      type: string
+
+    MaxMessageSize:
+      description: Maximum SCTP user message size
+      type: integer
+      maximum: 64
+      default: 64
+
+
+#
+# Enumerations
+#
+#
+    MediaResourceType:
+      description: Indicates the Media Resource type
+      anyOf:
+        - type: string
+          enum:
+            - DC
+            - AR
+            - AUDIO
+            - VIDEO
+        - type: string
+
+    MediaProxy:
+      description: Media Proxy Configuration applicable to the media flow
+      anyOf:
+        - type: string
+          enum:
+            - HTTP_PROXY
+            - UDP_PROXY
+        - type: string
+
+    BdcUsedBy:
+      description: The party uses the bootstrap data channel in the media description
+      anyOf:
+        - type: string
+          enum:
+            - SENDER
+            - RECEIVER
+        - type: string
+
+    AdcEndpointType:
+      description: The remote endpoint type of the application data channel
+      anyOf:
+        - type: string
+          enum:
+            - UE
+            - SERVER
+        - type: string
+
+
+    SecuritySetup:
+      description: security setup of the DTLS connection
+      anyOf:
+      - type: string
+        enum:
+          - ACTIVE
+          - PASSIVE
+          - ACTPASS
+      - type: string
+
+# STRUCTURED DATA TYPES
+#
+    DcEndpoint:
+      description: Endpoint for Data Channel
+      type: object
+      properties:
+        sctpPort:
+          type: integer
+          maximum: 65535
+          minimum: 0
+          description: Local or remote port for Data Channel
+        fingerprint:
+          type: string
+          pattern: '^(SHA-1|SHA-224|SHA-256|SHA-384|SHA-512|MD5|MD2|TOKEN)\s[0-9A-F]{2}(:[0-9A-F]{2})+'
+          description: local or remote certificate fingerprint for the DTLS association
+        tlsId:
+          type: string
+          pattern: '^[A-Fa-f0-9+/_-]{20,255}$'
+          description: local or remote TLS ID for the media stream
+        securitySetup:
+          $ref: '#/components/schemas/SecuritySetup'
+
+    DcStream:
+      description: Data Channel mapping and configuration information
+      type: object
+      not: 
+        required: [maxRetry, maxTime]
+      properties:
+        streamId:
+          type: integer
+          maximum: 65535
+          default: 0
+          description: Stream identifier for Data Channel
+        subprotocol:
+          type: string
+          pattern: '^[A-Fa-f0-9]{20}$'
+          description: Subprotocol of the SCTP stream
+        order:
+          type: boolean
+        maxRetry:
+          type: integer
+          default: 0
+          description: maximal number of the times a message will be retransmitted
+        maxTime:
+          type: integer
+          default: 0
+          description: >
+            maximal lifetime in milliseconds after which a message will no longer be
+            transmitted or retransmitted
+        priority:
+          type: integer
+          default: 256
+          description: priority of data channel relative to other data channels
+
+
+    ReplaceHttpUrl:
+      description: replacement HTTP URL per stream
+      type: object
+      properties:
+        replaceHttpUrl:
+          $ref: '#/components/schemas/Uri'
+        streamId:
+          type: integer
+          maximum: 65535
+          default: 0
+          description: Stream identifier for Data Channel
+
+    Endpoint:
+      description: Represents the IP endpoint.
+      type: object
+      required:
+        - ip
+        - transport
+        - portNumber
+      properties:
+        ip:
+          $ref: '#/components/schemas/IpAddr'
+        transport:
+          $ref: '#/components/schemas/TransportProtocol'
+        portNumber:
+          $ref: '#/components/schemas/Uinteger'
+
+
+    AppBindingInfo:
+      description: Represents the application binding information.
+      type: object
+      required:
+        - applicationId
+      properties:
+        applicationId:
+          type: string
+          description: application binding information of the Data Channel.
+        appDcInfo:
+          $ref: '#/components/schemas/AppDcInfo'
+
+
+    AppDcInfo:
+      description: Represents the application data channel is intened towards to a server or the remote UE.
+      type: object
+      required:
+        - streamId
+      properties:
+        streamId:
+          type: integer
+        adcEndpointType:
+          $ref: '#/components/schemas/AdcEndpointType'
+
+    MdcEndpoint:
+      description: Endpoint for MDC1 and MDC2 interface
+      type: object
+      required:
+        - ip
+        - portNumber
+      properties:
+        ip:
+          $ref: '#/components/schemas/IpAddr'
+        portNumber:
+          $ref: '#/components/schemas/Uinteger'
+        sctpPort:
+          type: integer
+          maximum: 65535
+          minimum: 0
+          description: Port number for SCTP connection over DTLS
+        fingerprint:
+          type: string
+          pattern: '^(SHA-1|SHA-224|SHA-256|SHA-384|SHA-512|MD5|MD2|TOKEN)\s[0-9A-F]{2}(:[0-9A-F]{2})+$'
+          description: Certificate fingerprint for the DTLS association
+        tlsId:
+          type: string
+          pattern: '^[A-Fa-f0-9+/_-]{20,255}$'
+          description: TLS ID for the DTLS connection
+        securitySetup:
+          $ref: '#/components/schemas/SecuritySetup'
+
 #
 # HTTP responses
 #
@@ -5503,7 +6568,8 @@ components:
           schema:
             type: string
         3gpp-Sbi-Target-Nf-Id:
-          description: 'Identifier of target NF (service) instance towards which the request is redirected'
+          description: >
+           'Identifier of target NF (service) instance towards which the request is redirected'
           schema:
             type: string
     '308':
@@ -5582,7 +6648,7 @@ components:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
     '413':
-      description: Payload Too Large
+      description: Content Too Large
       content:
         application/problem+json:
           schema:
@@ -5637,4 +6703,3 @@ components:
             $ref: '#/components/schemas/ProblemDetails'
     default:
       description: Generic Error
-

@@ -2,14 +2,14 @@ openapi: 3.0.0
 
 info:
   title: Nnwdaf_MLModelProvision
-  version: 1.1.0-alpha.3
+  version: 1.1.0
   description: |
     Nnwdaf_MLModelProvision API Service.  
-    © 2023, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
+    © 2024, 3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC).  
     All rights reserved.
 
 externalDocs:
-  description: 3GPP TS 29.520 V18.2.0; 5G System; Network Data Analytics Services.
+  description: 3GPP TS 29.520 V18.6.0; 5G System; Network Data Analytics Services.
   url: https://www.3gpp.org/ftp/Specs/archive/29_series/29.520/
 
 servers:
@@ -277,14 +277,13 @@ components:
       properties:
         modelInterInfo:
           type: string
-          description: >
-            Vendor-specific information about the ML models.
+          description: String representing the ML Model Interoperability Information.
         reqRepRatio:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
         inferInpDataInfos:
           type: array
           items:
-            $ref: '#/components/schemas/TrainInputInfo'
+            $ref: '#/components/schemas/InputDataInfo'
           minItems: 1
           description: >
             Inference information that is used by NWDAF containing AnLF during inference.
@@ -301,7 +300,7 @@ components:
           description: >
             Provided accuracy levels of interest for ML models.
 
-    TrainInputInfo:
+    InputDataInfo:
       description: Contains information about inference that is used by NWDAF containing AnLF.
       type: object
       properties:
@@ -323,6 +322,8 @@ components:
           items:
             $ref: 'TS29571_CommonData.yaml#/components/schemas/NfSetId'
           minItems: 1
+      required:
+        - inpEvent
 
 
     MLEventSubscription:
@@ -339,12 +340,10 @@ components:
           $ref: 'TS29122_CommonData.yaml#/components/schemas/TimeWindow'
         expiryTime:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
-        modelMetric:
-          $ref: '#/components/schemas/MLModelMetric'
+        timeModelNeeded:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/DateTime'
         mlEvRepCon:
           $ref: '#/components/schemas/MLRepEventCondition'
-        preDetStatus:
-          $ref: '#/components/schemas/MLModelStatus'
         modelInterInfo:
           type: string
           description: String representing the ML Model Interoperability Information.
@@ -352,17 +351,19 @@ components:
           $ref: 'TS29510_Nnrf_NFManagement.yaml#/components/schemas/VendorId'
         modelProvExt:
           $ref: '#/components/schemas/ModelProvisionParamsExt'
-          description: >
-            Extended ML model parameters that a service consumer optionally sets when subscribing to
-            an ML model to be provisioned.
         useCaseCxt:
           type: string
           description: >
             Indicates the context of usage of the analytics. The value and format of this parameter 
             are not standardized.
+        inferDataForModel:
+          $ref: '#/components/schemas/InferenceDataForModelTrain'
+        modelId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
       required:
         - mLEvent
         - mLEventFilter
+
     NwdafMLModelProvNotif:
       description: Represents notifications on events that occurred.
       type: object
@@ -388,6 +389,13 @@ components:
           $ref: 'TS29520_Nnwdaf_EventsSubscription.yaml#/components/schemas/NwdafEvent'
         notifCorreId:
           type: string
+          description: >
+            Contains notification correlation ID used to identify the subscription to which the
+            notification relates. It shall be set to the same value as the "notifCorreId" attribute
+            of NwdafMLModelProvSubsc data type.
+        mlFile:
+          type: string
+          description: Contains the ML model file.
         mLFileAddr:
           $ref: '#/components/schemas/MLModelAddr'
         mLModelAdrf:
@@ -397,10 +405,24 @@ components:
         spatialValidity:
           $ref: 'TS29554_Npcf_BDTPolicyControl.yaml#/components/schemas/NetworkAreaInfo'
         addModelInfo:
-          $ref: '#/components/schemas/AdditionalMLModelInformation'
-      required:
-        - event
-        - mLFileAddr
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalMLModelInformation'
+          minItems: 1
+          description: Contains the additional ML Model Information besides the ML Model Address
+        modelUniqueId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
+        useCaseCxt:
+          type: string
+          description: >
+            String identifying the context of use of ML model. The value and format of this
+            parameter are not standardized.
+      allOf:
+        - required: [event]
+        - oneOf:
+          - required: [mLFileAddr]
+          - required: [mLModelAdrf]
+
     FailureEventInfoForMLModel:
       description: >
         Represents the event(s) that the subscription is not successful including the failure
@@ -428,25 +450,6 @@ components:
         - required: [mLModelUrl]
         - required: [mlFileFqdn]
 
-    MLModelMetric:
-      description: Indicates the ML model metric.
-      type: object
-      properties:
-        mlModelAcc:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
-        mlModelPre:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
-        mlModelRec:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
-
-    MLModelStatus:
-      description: Indicates the pre-determined status of the ML model or training.
-      type: object
-      properties:
-        mlReqAcc:
-          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
-        mlTrainTime:
-          $ref: 'TS29122_CommonData.yaml#/components/schemas/TimeWindow'
 
     MLRepEventCondition:
       description: Indicates the ML event reporting condition.
@@ -456,7 +459,10 @@ components:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
         mlTrainRepTime:
           $ref: 'TS29122_CommonData.yaml#/components/schemas/TimeWindow'
-
+        mlAccuracyThreshold:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
+        modelMetric:
+          $ref: '#/components/schemas/MLModelMetric'
 
     AdditionalMLModelInformation:
       description: Represents the additional ML Model Information.
@@ -464,17 +470,16 @@ components:
       properties:
         mLFileAddr:
           $ref: '#/components/schemas/MLModelAddr'
+        mLModelAdrf:
+          $ref: '#/components/schemas/MLModelAdrf'
         validityPeriod:
           $ref: 'TS29122_CommonData.yaml#/components/schemas/TimeWindow'
         spatialValidity:
           $ref: 'TS29554_Npcf_BDTPolicyControl.yaml#/components/schemas/NetworkAreaInfo'
         modelUniqueId:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
-          description: Unique identifier for an ML model.
         modelRepRatio:
           $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
-          description: >
-            Minimum percentage of UEs whose data is used for training an ML model.
         mlDegradInd:
           type: boolean
           description: >
@@ -483,12 +488,20 @@ components:
         trainInpInfos:
           type: array
           items:
-            $ref: '#/components/schemas/TrainInputInfo'
+            $ref: '#/components/schemas/TrainInputDataInfo'
           minItems: 1
           description: >
             Training information that is used by NWDAF containing MTLF during training.
+        modelMetric:
+          $ref: '#/components/schemas/MLModelMetric'
+        accMLModel:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
+      oneOf:
+        - required: [mLFileAddr]
+        - required: [mLModelAdrf]
       required:
-        - mLFileAddr
+        - modelUniqueId
+
 
     MLModelAdrf:
       description: ADRF (Set) information of the ML Model.
@@ -502,8 +515,37 @@ components:
           type: string
           description: String identifying a Storage Transaction ID.
       oneOf:
-          - required: [adrfId]
-          - required: [adrfSetId]
+        - required: [adrfId]
+        - required: [adrfSetId]
+
+    TrainInputDataInfo:
+      description: Contains Training input data information that is used by NWDAF containing MTLF.
+      type: object
+      properties:
+        dataInfo:
+          $ref: '#/components/schemas/InputDataInfo'
+        time:
+          $ref: 'TS29122_CommonData.yaml#/components/schemas/TimeWindow'
+        dataStatisticsInfos:
+          type: string
+
+    InferenceDataForModelTrain:
+      description: >
+        Indicates the inference data stored in ADRF which can be used by MTLF to retrain or
+        reprovision of the ML model.
+      type: object
+      properties:
+        adrfId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/NfInstanceId'
+        adrfSetId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/NfSetId'
+        dataSetTag:
+          $ref: 'TS29575_Nadrf_DataManagement.yaml#/components/schemas/DataSetTag'
+        modelId:
+          $ref: 'TS29571_CommonData.yaml#/components/schemas/Uinteger'
+      oneOf:
+        - required: [adrfId]
+        - required: [adrfSetId]
 
 #
 # ENUMERATIONS DATA TYPES
@@ -521,4 +563,18 @@ components:
         Represents the failure code.  
         Possible values are:
         - UNAVAILABLE_ML_MODEL: Indicates the requested ML model for the event is unavailable.
+
+    MLModelMetric:
+      anyOf:
+      - type: string
+        enum:
+          - ACCURACY
+      - type: string
+        description: >
+          This string provides forward-compatibility with future extensions to the enumeration but
+          is not used to encode content defined in the present version of this API.
+      description: |
+        Represents the metric of the ML model.  
+        Possible values are:
+        - ACCURACY: ML Model Accuracy metric.
 
